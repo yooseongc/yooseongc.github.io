@@ -65,7 +65,7 @@
       
         <li class="list-item">
           
-            <a href="/" class="item-link active">Home</a>
+            <a href="/" class="item-link">Home</a>
           
         </li>
       
@@ -92,7 +92,7 @@
         
           <li class="menu-item">
             
-              <a href="/" class="menu-link mobile-active">Home</a>
+              <a href="/" class="menu-link">Home</a>
             
           </li>
         
@@ -113,79 +113,48 @@
   </div>
 </header>
 
-    <main class="app-body">
+    <div id="article-banner">
+  <h2>Archives</h2>
+  <p class="post-date">文章归档</p>
+</div>
+<main class="app-body" id="archives">
   
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2018/05/20/Design-Pattern-개요/">Design Pattern 개요</a>
-      </h2>
-      <p class="article-date">2018년 5월 20일</p>
-      
-        
-  <a href="/tags#design pattern" >
-    <span class="tag-code">design pattern</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          1. Design Pattern 이란?
-Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides 
-위 4명은 the Gang of Four 또는 GoF라 불림.
-자주 사용되는 23개의 디자인 패턴에 ‘이름’을 붙이고  ...
-        
+  
+  
+    <section class="time-section">
+  <h1 class="section-year">
+    2018
+  </h1>
+  <div class="section-list">
+    
+    
+      <div class="section-list-item">
+        <a href="/2018/05/20/Design-Pattern-개요/" class="archive-title">Design Pattern 개요</a>
+        <p class="archive-date">05-20</p>
       </div>
-      <a class="more" href="/2018/05/20/Design-Pattern-개요/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2018/05/20/a-test-page/">a test page</a>
-      </h2>
-      <p class="article-date">2018년 5월 20일</p>
-      
-        
-  <a href="/tags#ETC" >
-    <span class="tag-code">ETC</span>
-  </a>
-
-  <a href="/tags#HEXO" >
-    <span class="tag-code">HEXO</span>
-  </a>
-
-  <a href="/tags#TEST" >
-    <span class="tag-code">TEST</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          hexo를 이용한 github.io 테스트 페이지
-
-        
+    
+      <div class="section-list-item">
+        <a href="/2018/05/20/a-test-page/" class="archive-title">a test page</a>
+        <p class="archive-date">05-20</p>
       </div>
-      <a class="more" href="/2018/05/20/a-test-page/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2018/05/20/hello-world/">Hello World</a>
-      </h2>
-      <p class="article-date">2018년 5월 20일</p>
-      
-      <div class="article-summary">
-        
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer ...
-        
+    
+      <div class="section-list-item">
+        <a href="/2018/05/20/hello-world/" class="archive-title">Hello World</a>
+        <p class="archive-date">05-20</p>
       </div>
-      <a class="more" href="/2018/05/20/hello-world/">Read more</a>
-    </article>
-  
-
+    
+  </div>
+</section>
   
 </main>
 
-
+<script>
+  (function () {
+    var url = 'https://yooseongc.github.io/tags/design-pattern/index.html';
+    $('#article-banner').geopattern(url);
+    $('.header').removeClass('fixed-header');
+  })();
+</script>
     <div class="scroll-top">
   <span class="arrow-icon"></span>
 </div>

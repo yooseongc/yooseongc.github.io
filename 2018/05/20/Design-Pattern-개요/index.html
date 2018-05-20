@@ -10,7 +10,7 @@
   
   <title>
     
-      a test page | A Blackhole
+      Design Pattern 개요 | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,7 +114,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>a test page</h2>
+  <h2>Design Pattern 개요</h2>
   <p class="post-date">2018-05-20</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -123,23 +123,65 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><p>hexo를 이용한 github.io 테스트 페이지</p>
+    <section class="markdown-content"><h1 id="1-Design-Pattern-이란"><a href="#1-Design-Pattern-이란" class="headerlink" title="1. Design Pattern 이란?"></a>1. Design Pattern 이란?</h1><ul>
+<li>Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides </li>
+<li>위 4명은 the Gang of Four 또는 GoF라 불림.</li>
+<li>자주 사용되는 23개의 디자인 패턴에 ‘이름’을 붙이고 정리하여 </li>
+<li><code>Elements of Reusable Object-Oriented Software</code>를 발간.</li>
+</ul>
+<h1 id="2-Design-Patten이-중요한-이유"><a href="#2-Design-Patten이-중요한-이유" class="headerlink" title="2. Design Patten이 중요한 이유"></a>2. Design Patten이 중요한 이유</h1><ul>
+<li><code>재사용성</code>, <code>확장</code>을 위해 많은 사람들이 노력한 정리된 결과물</li>
+<li>개발자 간의 프로그램 구조에 대한 <code>용어</code>의 <code>통일</code></li>
+</ul>
+<h1 id="3-Introduction"><a href="#3-Introduction" class="headerlink" title="3. Introduction"></a>3. Introduction</h1><ul>
+<li>“Program to an ‘interface’, not an ‘implementation’.”<ul>
+<li>clients remain unaware of the specific types of objects they use, as long as the object adheres to the interface</li>
+<li>clients remain unaware of the classes that implement these objects; clients only know about the abstract class(es) defining the interface</li>
+<li>leads to dynamic binding and polymorphism, which are central features of object-oriented programming</li>
+</ul>
+</li>
+<li>Composition over inheritance: “Favor ‘object composition’ over ‘class inheritance’.”</li>
+</ul>
+<h1 id="4-GoF에서-다루는-Design-Pattern-목록"><a href="#4-GoF에서-다루는-Design-Pattern-목록" class="headerlink" title="4. GoF에서 다루는 Design Pattern 목록"></a>4. GoF에서 다루는 Design Pattern 목록</h1><h2 id="1-Creation"><a href="#1-Creation" class="headerlink" title="1. Creation"></a>1. Creation</h2><p>Creational patterns are ones that create objects for you, rather than having you instantiate objects directly. This gives your program more flexibility in deciding which objects need to be created for a given case.</p>
+<ul>
+<li><code>Abstract factory pattern</code> groups object factories that have a common theme.</li>
+<li><code>Builder pattern</code> constructs complex objects by separating construction and representation.</li>
+<li><code>Factory method pattern</code> creates objects without specifying the exact class to create.</li>
+<li><code>Prototype pattern</code> creates objects by cloning an existing object.</li>
+<li><code>Singleton pattern</code> restricts object creation for a class to only one instance.</li>
+</ul>
+<h2 id="2-Structural"><a href="#2-Structural" class="headerlink" title="2. Structural"></a>2. Structural</h2><p>These concern class and object <code>composition</code>. They use inheritance to compose interfaces and define ways to compose objects to obtain new functionality.</p>
+<ul>
+<li><code>Adapter</code> allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.</li>
+<li><code>Bridge</code> decouples an abstraction from its implementation so that the two can vary independently.</li>
+<li><code>Composite</code> composes zero-or-more similar objects so that they can be manipulated as one object.</li>
+<li><code>Decorator</code> dynamically adds/overrides behaviour in an existing method of an object.</li>
+<li><code>Facade</code> provides a simplified interface to a large body of code.</li>
+<li><code>Flyweight</code> reduces the cost of creating and manipulating a large number of similar objects.</li>
+<li><code>Proxy</code> provides a placeholder for another object to control access, reduce cost, and reduce complexity.</li>
+</ul>
+<h2 id="3-Behavioral"><a href="#3-Behavioral" class="headerlink" title="3. Behavioral"></a>3. Behavioral</h2><p>Most of these design patterns are specifically concerned with <code>communication between objects</code>.</p>
+<ul>
+<li><code>Chain of responsibility</code> delegates commands to a chain of processing objects.</li>
+<li><code>Command</code> creates objects which encapsulate actions and parameters.</li>
+<li><code>Interpreter</code> implements a specialized language.</li>
+<li><code>Iterator</code> accesses the elements of an object sequentially without exposing its underlying representation.</li>
+<li><code>Mediator</code> allows loose coupling between classes by being the only class that has detailed knowledge of their methods.</li>
+<li><code>Memento</code> provides the ability to restore an object to its previous state (undo).</li>
+<li><code>Observer</code> is a publish/subscribe pattern which allows a number of observer objects to see an event.</li>
+<li><code>State</code> allows an object to alter its behavior when its internal state changes.</li>
+<li><code>Strategy</code> allows one of a family of algorithms to be selected on-the-fly at runtime.</li>
+<li><code>Template method</code> defines the skeleton of an algorithm as an abstract class, allowing its subclasses to provide concrete behavior.</li>
+<li><code>Visitor</code> separates an algorithm from an object structure by moving the hierarchy of methods into one object.</li>
+</ul>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#ETC" >
-    <span class="tag-code">ETC</span>
-  </a>
-
-  <a href="/tags#HEXO" >
-    <span class="tag-code">HEXO</span>
-  </a>
-
-  <a href="/tags#TEST" >
-    <span class="tag-code">TEST</span>
+  <a href="/tags#design pattern" >
+    <span class="tag-code">design pattern</span>
   </a>
 
       </div>
@@ -150,20 +192,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/20/hello-world/">
+      <a class="nav-left" href="/2018/05/20/a-test-page/">
         <span class="nav-arrow">← </span>
         
-          Hello World
+          a test page
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/05/20/Design-Pattern-개요/">
-        
-          Design Pattern 개요
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -188,7 +223,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/20/a-test-page/';
+    var url = 'https://yooseongc.github.io/2018/05/20/Design-Pattern-개요/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -244,7 +279,7 @@
     var gitmentConfig = "choiys3574@naver.com";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "a test page",
+        id: "Design Pattern 개요",
         owner: "choiys3574@naver.com",
         repo: "https://github.com/yooseongc/yooseongc.github.io.git",
         oauth: {
