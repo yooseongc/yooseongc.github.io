@@ -10,7 +10,7 @@
   
   <title>
     
-      Iterator Pattern | A Blackhole
+      MapReduce Process | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Iterator Pattern</h2>
-  <p class="post-date">2018-05-20</p>
+  <h2>MapReduce Process</h2>
+  <p class="post-date">2018-05-22</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,48 +123,17 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Iterator-Pattern"><a href="#Iterator-Pattern" class="headerlink" title="Iterator Pattern"></a>Iterator Pattern</h1><p><code>Iterator</code> : accesses the elements of an object sequentially without exposing its underlying representation.</p>
-<ul>
-<li>특정 집합체의 요소들을 순서대로 접근해서 처리</li>
-<li><code>for</code> 문의 index 기능을 추상화</li>
-<li>왜 <code>for</code> 나 <code>while</code> 대신 <code>Iterator</code> 를 만들어 사용하는걸까?</li>
-</ul>
-<h1 id="Iterator-패턴의-요소"><a href="#Iterator-패턴의-요소" class="headerlink" title="Iterator 패턴의 요소"></a>Iterator 패턴의 요소</h1><ol>
-<li>Iterator interface : 반복자, index를 가지고 있다.</li>
-<li>ConcreteIterator (implements Iterator)</li>
-<li>Aggregate interface : 집합체, Iterator를 생성하는 역할</li>
-<li>ConcreteAggregate (implements Aggregate)</li>
-</ol>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="/images/iterator-uml.png" alt="iterator-uml"></p>
-<h1 id="Why-we-shold-use-Iterator"><a href="#Why-we-shold-use-Iterator" class="headerlink" title="Why we shold use Iterator?"></a>Why we shold use Iterator?</h1><ul>
-<li><code>Iterator</code> 를 사용하면 <code>ConcreteAggregate</code> 구현에 의존하지 않고 loop를 사용할 수 있음.</li>
-<li><code>Aggregate</code> , <code>Iterator</code> Pair를 사용함으로써 iteration의 추상화가 가능.</li>
-</ul>
-<h1 id="확장"><a href="#확장" class="headerlink" title="확장"></a>확장</h1><ul>
-<li>뒤에서 시작해서 역방향으로 진행하도록 구현.</li>
-<li>양 방향을 진행하도록 next(), previous()를 구현.</li>
-<li>특정 index로 jump하도록 구현.</li>
-</ul>
-<h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><code>Visitor</code> : <code>Iterator</code> + 처리 로직 (돌아다니면서 하나씩 직접 처리)</li>
-<li><code>Composite</code> : 재귀 구조패턴이므로 <code>Iterator</code> 적용이 어려움.</li>
-<li><code>Factory Method</code> : <code>Iterator</code> 인스턴스를 <code>Factory Method</code>로 구현</li>
-</ul>
+    <section class="markdown-content"><h1 id="Process-over-MapReduce"><a href="#Process-over-MapReduce" class="headerlink" title="Process over MapReduce"></a>Process over MapReduce</h1><p>ref) MapReduce: Simplefied Data Processing on Large Clusters (2004).</p>
+<p>3.1. Execution Overview를 읽어보면 아래와 같이 정리할 수 있다.</p>
+<h2 id="1-Splits-the-input-files-into-M-pieces"><a href="#1-Splits-the-input-files-into-M-pieces" class="headerlink" title="1. Splits the input files into M pieces."></a>1. Splits the input files into M pieces.</h2><p>16MB ~ 64MB 정도의 input split 조각들로 나눈다.<br>HDMS의 block이 물리단위라면 input split은 논리 단위가 된다.</p>
+<h2 id="2-The-master-picks-idle-workers-and-assigns-each-one-a-map-reduce-task"><a href="#2-The-master-picks-idle-workers-and-assigns-each-one-a-map-reduce-task" class="headerlink" title="2. The master picks idle workers and assigns each one a map/reduce task."></a>2. The master picks idle workers and assigns each one a map/reduce task.</h2><p>master는 쉬고 있는 worker들에게 map또는 reduce task를 할당한다.</p>
+<h2 id="3-A-worker-invoke-user-defined-Map-function"><a href="#3-A-worker-invoke-user-defined-Map-function" class="headerlink" title="3. A worker invoke user-defined Map function"></a>3. A worker invoke user-defined Map function</h2><p>Map 작업을 받은 worker는 사용자가 정의한 Map 작업을 시행한다.<br>이 때 intermediate key/value 쌍이 생성되어 buffer에 쌓인다.</p>
+<h2 id="4-Periodically-the-buffered-pairs-are-written-to-local-disk-partitioned-into-R-regions"><a href="#4-Periodically-the-buffered-pairs-are-written-to-local-disk-partitioned-into-R-regions" class="headerlink" title="4. Periodically, the buffered pairs are written to local disk, partitioned into R regions"></a>4. Periodically, the buffered pairs are written to local disk, partitioned into R regions</h2><p>주기적으로 버퍼에 저장된 key/value 쌍들은 로컬 디스크에 저장(spill)되며,<br>partition function에 의해 R개의 조각으로 나누어진다. (보통 key hash % R 로써 분류된다.)<br>작업이 끝나면 reduce worker에게 spill된 파일의 위치를 알린다.</p>
+<h2 id="5-A-reduce-worker-read-all-intermediate-data-it-sorts-by-the-intermediate-keys"><a href="#5-A-reduce-worker-read-all-intermediate-data-it-sorts-by-the-intermediate-keys" class="headerlink" title="5. A reduce worker read all intermediate data, it sorts by the intermediate keys"></a>5. A reduce worker read all intermediate data, it sorts by the intermediate keys</h2><p>4번 작업에 의해 spill된 파일의 위치를 연락받은 reduce worker는 RPC를 이용하여 데이터를 읽고,<br>intermediate key를 기준으로 정렬을 한다. 이 과정에서 같은 키를 가지는 값들이 뭉칠 것이다.<br>만약 데이터 양이 너무 많은 경우에는 exteranl sort가 사용된다고 한다.</p>
+<h2 id="6-The-reduce-worker-iterates-over-the-sorted-intermediate-data-and-invoke-user-defined-Reduce-function"><a href="#6-The-reduce-worker-iterates-over-the-sorted-intermediate-data-and-invoke-user-defined-Reduce-function" class="headerlink" title="6. The reduce worker iterates over the sorted intermediate data and invoke user-defined Reduce function"></a>6. The reduce worker iterates over the sorted intermediate data and invoke user-defined Reduce function</h2><p>정렬된 intermediate data를 iterate 하면서 각 유일키 별로 Reduce 작업을 시행한다.<br>이 때 결과인 reduce partition은 최정 결과물에 더해진다.</p>
+<h2 id="7-If-MapReduce-finished-the-master-wakes-up-the-user-program"><a href="#7-If-MapReduce-finished-the-master-wakes-up-the-user-program" class="headerlink" title="7. If MapReduce finished, the master wakes up the user program."></a>7. If MapReduce finished, the master wakes up the user program.</h2><p>작업이 끝나면 다시 사용자 코드로 돌아가게 된다.<br>결과로 총 R개의 output file이 생기게 될 것이다.</p>
 </section>
     <!-- Tags START -->
-    
-      <div class="tags">
-        <span>Tags:</span>
-        
-  <a href="/tags#Design Pattern" >
-    <span class="tag-code">Design Pattern</span>
-  </a>
-
-  <a href="/tags#Behavioral" >
-    <span class="tag-code">Behavioral</span>
-  </a>
-
-      </div>
     
     <!-- Tags END -->
     <!-- NAV START -->
@@ -172,20 +141,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/20/Design-Pattern-개요/">
+      <a class="nav-left" href="/2018/05/20/Iterator-Pattern/">
         <span class="nav-arrow">← </span>
         
-          Design Pattern 개요
+          Iterator Pattern
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/05/22/MapReduce-Process/">
-        
-          MapReduce Process
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -210,7 +172,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/20/Iterator-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/05/22/MapReduce-Process/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -266,7 +228,7 @@
     var gitmentConfig = "choiys3574@naver.com";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Iterator Pattern",
+        id: "MapReduce Process",
         owner: "choiys3574@naver.com",
         repo: "https://github.com/yooseongc/yooseongc.github.io.git",
         oauth: {
