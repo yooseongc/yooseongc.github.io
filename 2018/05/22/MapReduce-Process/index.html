@@ -124,6 +124,7 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h1 id="Process-over-MapReduce"><a href="#Process-over-MapReduce" class="headerlink" title="Process over MapReduce"></a>Process over MapReduce</h1><p>ref) MapReduce: Simplefied Data Processing on Large Clusters (2004).</p>
+<p><img src="mapreduce-process.jpg" alt="mapreduce-process"></p>
 <p>3.1. Execution Overview를 읽어보면 아래와 같이 정리할 수 있다.</p>
 <h2 id="1-Splits-the-input-files-into-M-pieces"><a href="#1-Splits-the-input-files-into-M-pieces" class="headerlink" title="1. Splits the input files into M pieces."></a>1. Splits the input files into M pieces.</h2><p>16MB ~ 64MB 정도의 input split 조각들로 나눈다.<br>HDMS의 block이 물리단위라면 input split은 논리 단위가 된다.</p>
 <h2 id="2-The-master-picks-idle-workers-and-assigns-each-one-a-map-reduce-task"><a href="#2-The-master-picks-idle-workers-and-assigns-each-one-a-map-reduce-task" class="headerlink" title="2. The master picks idle workers and assigns each one a map/reduce task."></a>2. The master picks idle workers and assigns each one a map/reduce task.</h2><p>master는 쉬고 있는 worker들에게 map또는 reduce task를 할당한다.</p>
