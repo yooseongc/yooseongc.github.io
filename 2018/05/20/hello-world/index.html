@@ -159,9 +159,7 @@
     
     <!-- 二维码 END -->
     
-      <!-- Gitment START -->
-      <div id="comments"></div>
-      <!-- Gitment END -->
+      <!-- No Comment -->
     
   </article>
   <!-- Article END -->
@@ -225,15 +223,15 @@
     });
 
     // gitment
-    var gitmentConfig = "yooseongc";
+    var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
         id: "Hello World",
-        owner: "yooseongc",
-        repo: "https://github.com/yooseongc/yooseongc.github.io.git",
+        owner: "",
+        repo: "",
         oauth: {
-          client_id: "468740bf56b2ac5b64ae",
-          client_secret: "d212ef8194841d7c01b97186ee18254dedc48c00"
+          client_id: "",
+          client_secret: ""
         },
         theme: {
           render(state, instance) {
