@@ -10,7 +10,7 @@
   
   <title>
     
-      Design Pattern 개요 | A Blackhole
+      Adapter-Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Design Pattern 개요</h2>
-  <p class="post-date">2018-05-20</p>
+  <h2>Adapter-Pattern</h2>
+  <p class="post-date">2018-05-23</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,56 +123,33 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="1-Design-Pattern-이란"><a href="#1-Design-Pattern-이란" class="headerlink" title="1. Design Pattern 이란?"></a>1. Design Pattern 이란?</h1><ul>
-<li>Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides </li>
-<li>위 4명은 the Gang of Four 또는 GoF라 불림.</li>
-<li>자주 사용되는 23개의 디자인 패턴에 ‘이름’을 붙이고 정리하여 </li>
-<li><code>Elements of Reusable Object-Oriented Software</code>를 발간.</li>
+    <section class="markdown-content"><h1 id="Adapter-Pattern"><a href="#Adapter-Pattern" class="headerlink" title="Adapter Pattern"></a>Adapter Pattern</h1><p><code>Adapter</code> allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.</p>
+<p>Wrapping Interface를 정의하여 서로 호환 불가한 interface(메서드들)끼리 합성한다.   </p>
+<p>예를 들어 110V 콘센트에 220V 전원을 꼽게 되면 모양이 맞지 않아 들어가지 않을 것이다. 우리는 <code>돼지코</code> 를 사용하여 이를 연결해 줄 수 있을 것이다.</p>
+<p><code>Adapter</code> = A something adapt(개조함) incompatible interfaces.</p>
+<p>Adapter Pattern은 <code>Wrapper Pattern</code> 으로 불리기도 한다.</p>
+<p>Java에서 이를 구현하기 위한 방법은 크게 2가지로 분리된다.</p>
+<h1 id="방법"><a href="#방법" class="headerlink" title="방법"></a>방법</h1><ol>
+<li>상속을 이용 (inheritance)<br> <code>Adaptee</code> 를 상속받아 <code>Target</code> 인터페이스를 구현한다.</li>
+<li>위임을 이용 (instance)<br> <code>Adapter</code> 는 <code>Adaptee</code> 를 <code>합성</code> 의 형태로 가지며, <code>Target</code> 인터페이스를 구현한다.</li>
+</ol>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="adapter-pattern.png" alt="adapter-pattern"></p>
+<h1 id="구성요소"><a href="#구성요소" class="headerlink" title="구성요소"></a>구성요소</h1><ol>
+<li><code>Target</code> : 합쳐질 interface (<code>Client</code> 에서 사용 될 interface)</li>
+<li><code>Client</code> : <code>Target</code> interface를 사용하는 객체. </li>
+<li><code>Adaptee</code> : 호환되지 않아 개조되야 하는 interface</li>
+<li><code>Adapter</code> : <code>Adaptee</code>를 <code>Target</code>의 interface로 개조한다. <code>상속</code> 혹은 <code>위임</code>을 한다.</li>
+</ol>
+<h1 id="왜-사용하는-것일까"><a href="#왜-사용하는-것일까" class="headerlink" title="왜 사용하는 것일까?"></a>왜 사용하는 것일까?</h1><ul>
+<li>이미 주어진 기존의 클래스(<code>Adaptee</code>)를 개조하여 재이용하고 싶으나 호환성이 문제가 될 수 있다. 이 때 <code>Adapter</code> 패턴을 사용하면 가령 소스파일이 없더라도 새로운 인터페이스에 맞게 개조할 수 있다. </li>
+<li>또는 구버전과의 호환성을 유지하고 싶을 때도 <code>Adapter</code> 패턴은 좋은 방법이 될 수 있다. 이 때 구버전이 <code>Target</code>, 신 버전이 <code>Adaptee</code>가 될 것이다. 이렇게 하면 사용자는 구버전만 사용하면 될 것이다.</li>
+<li>기능이 지나치게 동떨어진 경우는 당연히 <code>Adapter</code> 패턴을 사용할 수 없을 것이다.</li>
 </ul>
-<h1 id="2-Design-Patten이-중요한-이유"><a href="#2-Design-Patten이-중요한-이유" class="headerlink" title="2. Design Patten이 중요한 이유"></a>2. Design Patten이 중요한 이유</h1><ul>
-<li><code>재사용성</code>, <code>확장</code>을 위해 많은 사람들이 노력한 정리된 결과물</li>
-<li>개발자 간의 프로그램 구조에 대한 <code>용어</code>의 <code>통일</code></li>
-</ul>
-<h1 id="3-Introduction"><a href="#3-Introduction" class="headerlink" title="3. Introduction"></a>3. Introduction</h1><ul>
-<li>“Program to an ‘interface’, not an ‘implementation’.”<ul>
-<li>clients remain unaware of the specific types of objects they use, as long as the object adheres to the interface</li>
-<li>clients remain unaware of the classes that implement these objects; clients only know about the abstract class(es) defining the interface</li>
-<li>leads to dynamic binding and polymorphism, which are central features of object-oriented programming</li>
-</ul>
+<h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
+<li><p><code>Bridge Pattern</code> : interface가 서로 다른 클래스들을 연결하는게 <code>Adapter</code> 라면, <code>Bridge</code> 는 기능의 계층과 구현의 계층을 연결시킨다.</p>
 </li>
-<li>Composition over inheritance: “Favor ‘object composition’ over ‘class inheritance’.”</li>
-</ul>
-<h1 id="4-GoF에서-다루는-Design-Pattern-목록"><a href="#4-GoF에서-다루는-Design-Pattern-목록" class="headerlink" title="4. GoF에서 다루는 Design Pattern 목록"></a>4. GoF에서 다루는 Design Pattern 목록</h1><h2 id="1-Creation"><a href="#1-Creation" class="headerlink" title="1. Creation"></a>1. Creation</h2><p>Creational patterns are ones that create objects for you, rather than having you instantiate objects directly. This gives your program more flexibility in deciding which objects need to be created for a given case.</p>
-<ul>
-<li><code>Abstract factory pattern</code> groups object factories that have a common theme.</li>
-<li><code>Builder pattern</code> constructs complex objects by separating construction and representation.</li>
-<li><code>Factory method pattern</code> creates objects without specifying the exact class to create.</li>
-<li><code>Prototype pattern</code> creates objects by cloning an existing object.</li>
-<li><code>Singleton pattern</code> restricts object creation for a class to only one instance.</li>
-</ul>
-<h2 id="2-Structural"><a href="#2-Structural" class="headerlink" title="2. Structural"></a>2. Structural</h2><p>These concern class and object <code>composition</code>. They use inheritance to compose interfaces and define ways to compose objects to obtain new functionality.</p>
-<ul>
-<li><a href="https://yooseongc.github.io/2018/05/23/Adapter-Pattern/"><code>Adapter</code></a> allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.</li>
-<li><code>Bridge</code> decouples an abstraction from its implementation so that the two can vary independently.</li>
-<li><code>Composite</code> composes zero-or-more similar objects so that they can be manipulated as one object.</li>
-<li><code>Decorator</code> dynamically adds/overrides behaviour in an existing method of an object.</li>
-<li><code>Facade</code> provides a simplified interface to a large body of code.</li>
-<li><code>Flyweight</code> reduces the cost of creating and manipulating a large number of similar objects.</li>
-<li><code>Proxy</code> provides a placeholder for another object to control access, reduce cost, and reduce complexity.</li>
-</ul>
-<h2 id="3-Behavioral"><a href="#3-Behavioral" class="headerlink" title="3. Behavioral"></a>3. Behavioral</h2><p>Most of these design patterns are specifically concerned with <code>communication between objects</code>.</p>
-<ul>
-<li><code>Chain of responsibility</code> delegates commands to a chain of processing objects.</li>
-<li><code>Command</code> creates objects which encapsulate actions and parameters.</li>
-<li><code>Interpreter</code> implements a specialized language.</li>
-<li><a href="https://yooseongc.github.io/2018/05/20/Iterator-Pattern/"><code>Iterator</code></a> accesses the elements of an object sequentially without exposing its underlying representation.</li>
-<li><code>Mediator</code> allows loose coupling between classes by being the only class that has detailed knowledge of their methods.</li>
-<li><code>Memento</code> provides the ability to restore an object to its previous state (undo).</li>
-<li><code>Observer</code> is a publish/subscribe pattern which allows a number of observer objects to see an event.</li>
-<li><code>State</code> allows an object to alter its behavior when its internal state changes.</li>
-<li><code>Strategy</code> allows one of a family of algorithms to be selected on-the-fly at runtime.</li>
-<li><code>Template method</code> defines the skeleton of an algorithm as an abstract class, allowing its subclasses to provide concrete behavior.</li>
-<li><code>Visitor</code> separates an algorithm from an object structure by moving the hierarchy of methods into one object.</li>
+<li><p><code>Decorator Pattern</code> : <code>Adapter</code> 가 interface 차이를 조정하기 위한 것이라면, <code>Decorator</code> 는 interface를 수정하지 않은 채로 기능을 추가한다.</p>
+</li>
 </ul>
 </section>
     <!-- Tags START -->
@@ -180,8 +157,12 @@
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#design pattern" >
-    <span class="tag-code">design pattern</span>
+  <a href="/tags#Design Pattern" >
+    <span class="tag-code">Design Pattern</span>
+  </a>
+
+  <a href="/tags#Structural" >
+    <span class="tag-code">Structural</span>
   </a>
 
       </div>
@@ -192,20 +173,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/20/a-test-page/">
+      <a class="nav-left" href="/2018/05/22/MapReduce-Process/">
         <span class="nav-arrow">← </span>
         
-          a test page
+          MapReduce Process
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/05/20/Iterator-Pattern/">
-        
-          Iterator Pattern
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -228,7 +202,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/20/Design-Pattern-개요/';
+    var url = 'https://yooseongc.github.io/2018/05/23/Adapter-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -284,7 +258,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Design Pattern 개요",
+        id: "Adapter-Pattern",
         owner: "",
         repo: "",
         oauth: {

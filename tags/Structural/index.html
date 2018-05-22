@@ -10,7 +10,7 @@
   
   <title>
     
-      Tags | A Blackhole
+      A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,151 +114,60 @@
 </header>
 
     <div id="article-banner">
-  <h2>Tags</h2>
+  <h2>Archives</h2>
+  <p class="post-date">文章归档</p>
 </div>
-<main class="app-body">
-  <div id="tag-cloud">
+<main class="app-body" id="archives">
+  
+  
+  
+    <section class="time-section">
+  <h1 class="section-year">
+    2018
+  </h1>
+  <div class="section-list">
     
-      <a class="tag2" data-name="tag-Design Pattern">Design Pattern</a>
     
-      <a class="tag2" data-name="tag-Structural">Structural</a>
+      <div class="section-list-item">
+        <a href="/2018/05/23/Adapter-Pattern/" class="archive-title">Adapter-Pattern</a>
+        <p class="archive-date">05-23</p>
+      </div>
     
-      <a class="tag1" data-name="tag-design pattern">design pattern</a>
+      <div class="section-list-item">
+        <a href="/2018/05/22/MapReduce-Process/" class="archive-title">MapReduce Process</a>
+        <p class="archive-date">05-22</p>
+      </div>
     
-      <a class="tag2" data-name="tag-ETC">ETC</a>
+      <div class="section-list-item">
+        <a href="/2018/05/20/Iterator-Pattern/" class="archive-title">Iterator Pattern</a>
+        <p class="archive-date">05-20</p>
+      </div>
     
-      <a class="tag0" data-name="tag-HEXO">HEXO</a>
+      <div class="section-list-item">
+        <a href="/2018/05/20/Design-Pattern-개요/" class="archive-title">Design Pattern 개요</a>
+        <p class="archive-date">05-20</p>
+      </div>
     
-      <a class="tag1" data-name="tag-TEST">TEST</a>
+      <div class="section-list-item">
+        <a href="/2018/05/20/a-test-page/" class="archive-title">a test page</a>
+        <p class="archive-date">05-20</p>
+      </div>
     
-      <a class="tag0" data-name="tag-Behavioral">Behavioral</a>
-    
-      <a class="tag3" data-name="tag-HADOOP">HADOOP</a>
-    
-      <a class="tag1" data-name="tag-MAPREDUCE">MAPREDUCE</a>
+      <div class="section-list-item">
+        <a href="/2018/05/20/hello-world/" class="archive-title">Hello World</a>
+        <p class="archive-date">05-20</p>
+      </div>
     
   </div>
+</section>
   
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-Design Pattern">Design Pattern</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/23/Adapter-Pattern/">Adapter-Pattern</a>
-          </li>
-        </ul>
-        
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/Iterator-Pattern/">Iterator Pattern</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-Structural">Structural</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/23/Adapter-Pattern/">Adapter-Pattern</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-design pattern">design pattern</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/Design-Pattern-개요/">Design Pattern 개요</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-ETC">ETC</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/a-test-page/">a test page</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-HEXO">HEXO</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/a-test-page/">a test page</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-TEST">TEST</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/a-test-page/">a test page</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-Behavioral">Behavioral</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/20/Iterator-Pattern/">Iterator Pattern</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-HADOOP">HADOOP</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/22/MapReduce-Process/">MapReduce Process</a>
-          </li>
-        </ul>
-        
-    </div>
-    
-    <div class="tag-list">
-      <h3 class="tag-name" id="tag-MAPREDUCE">MAPREDUCE</h3>
-      
-        <ul class="tag-preview">
-          <li>
-            <a href="/2018/05/22/MapReduce-Process/">MapReduce Process</a>
-          </li>
-        </ul>
-        
-    </div>
-    
 </main>
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/tags/index.html'
-    $('#article-banner').geopattern(url)
-    $('.header').removeClass('fixed-header')
-
-    var tag = location.hash.replace('#', '')
-    if (tag) {
-      var tagId = "#tag-" + tag;
-      $("html, body").animate({
-        scrollTop: $(tagId).offset().top 
-      }, 400)
-    }
+    var url = 'https://yooseongc.github.io/tags/Structural/index.html';
+    $('#article-banner').geopattern(url);
+    $('.header').removeClass('fixed-header');
   })();
 </script>
     <div class="scroll-top">
