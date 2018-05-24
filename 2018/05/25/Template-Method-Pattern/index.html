@@ -10,7 +10,7 @@
   
   <title>
     
-      Adapter-Pattern | A Blackhole
+      Template-Method-Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Adapter-Pattern</h2>
-  <p class="post-date">2018-05-23</p>
+  <h2>Template-Method-Pattern</h2>
+  <p class="post-date">2018-05-25</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,33 +123,25 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Adapter-Pattern"><a href="#Adapter-Pattern" class="headerlink" title="Adapter Pattern"></a>Adapter Pattern</h1><p><code>Adapter</code> allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.</p>
-<p>Wrapping Interface를 정의하여 서로 호환 불가한 interface(메서드들)끼리 합성한다.   </p>
-<p>예를 들어 110V 콘센트에 220V 전원을 꼽게 되면 모양이 맞지 않아 들어가지 않을 것이다. 우리는 <code>돼지코</code> 를 사용하여 이를 연결해 줄 수 있을 것이다.</p>
-<p><code>Adapter</code> = A something adapt(개조함) incompatible interfaces.</p>
-<p>Adapter Pattern은 <code>Wrapper Pattern</code> 으로 불리기도 한다.</p>
-<p>Java에서 이를 구현하기 위한 방법은 크게 2가지로 분리된다.</p>
-<h1 id="방법"><a href="#방법" class="headerlink" title="방법"></a>방법</h1><ol>
-<li>상속을 이용 (inheritance)<br> <code>Adaptee</code> 를 상속받아 <code>Target</code> 인터페이스를 구현한다.</li>
-<li>위임을 이용 (instance)<br> <code>Adapter</code> 는 <code>Adaptee</code> 를 <code>합성</code> 의 형태로 가지며, <code>Target</code> 인터페이스를 구현한다.</li>
+    <section class="markdown-content"><h1 id="Template-Method-Pattern"><a href="#Template-Method-Pattern" class="headerlink" title="Template Method Pattern"></a>Template Method Pattern</h1><p><code>Template method</code> defines the skeleton of an algorithm as an abstract class, allowing its subclasses to provide concrete behavior.</p>
+<p>간단히 말해 템플릿 기능(method)을 가진 패턴.<br>상위 추상 클래스에 interface와 알고리즘을 정해두고, 하위 클래스가 이를 구현한다.<br>상위의 추상 클래스는 기능(알고리즘)에 대한 뼈대 역할을 할 것이다.   </p>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="Template-Method-Pattern.gif" alt="Template-Method-Pattern"></p>
+<h1 id="구셩-요소"><a href="#구셩-요소" class="headerlink" title="구셩 요소"></a>구셩 요소</h1><ol>
+<li>Abstract Class</li>
+<li>Concrete Class</li>
 </ol>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="adapter-pattern.png" alt="adapter-pattern"></p>
-<h1 id="구성요소"><a href="#구성요소" class="headerlink" title="구성요소"></a>구성요소</h1><ol>
-<li><code>Target</code> : 합쳐질 interface (<code>Client</code> 에서 사용 될 interface)</li>
-<li><code>Client</code> : <code>Target</code> interface를 사용하는 객체. </li>
-<li><code>Adaptee</code> : 호환되지 않아 개조되야 하는 interface</li>
-<li><code>Adapter</code> : <code>Adaptee</code>를 <code>Target</code>의 interface로 개조한다. <code>상속</code> 혹은 <code>위임</code>을 한다.</li>
-</ol>
-<h1 id="왜-사용하는-것일까"><a href="#왜-사용하는-것일까" class="headerlink" title="왜 사용하는 것일까?"></a>왜 사용하는 것일까?</h1><ul>
-<li>이미 주어진 기존의 클래스(<code>Adaptee</code>)를 개조하여 재이용하고 싶으나 호환성이 문제가 될 수 있다. 이 때 <code>Adapter</code> 패턴을 사용하면 가령 소스파일이 없더라도 새로운 인터페이스에 맞게 개조할 수 있다. </li>
-<li>또는 구버전과의 호환성을 유지하고 싶을 때도 <code>Adapter</code> 패턴은 좋은 방법이 될 수 있다. 이 때 구버전이 <code>Target</code>, 신 버전이 <code>Adaptee</code>가 될 것이다. 이렇게 하면 사용자는 구버전만 사용하면 될 것이다.</li>
-<li>기능이 지나치게 동떨어진 경우는 당연히 <code>Adapter</code> 패턴을 사용할 수 없을 것이다.</li>
+<h1 id="왜-쓸까"><a href="#왜-쓸까" class="headerlink" title="왜 쓸까?"></a>왜 쓸까?</h1><ul>
+<li>템플릿 메서드에서 이미 알고리즘이 기술되어 있어서 뼈대 알고리즘의 통합 관리가 편하다.   </li>
+<li>The Liskov Substitution Principle (LSP)의 한 사례. (다형성)</li>
+<li>코드 중복을 줄인 채 다양한 변형을 쉽게 만들 수 있다. (객체의 확장이 쉽다.)</li>
+</ul>
+<h1 id="주의-사항"><a href="#주의-사항" class="headerlink" title="주의 사항"></a>주의 사항</h1><ul>
+<li>상속을 이용하므로 상위 클래스와 하위 클래스의 결합도가 높다.</li>
+<li>하위 클래스에서 <code>super()</code> 이 언제 호출될 지 생각해야 한다.</li>
 </ul>
 <h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><p><code>Bridge Pattern</code> : interface가 서로 다른 클래스들을 연결하는게 <code>Adapter</code> 라면, <code>Bridge</code> 는 기능의 계층과 구현의 계층을 연결시킨다.</p>
-</li>
-<li><p><code>Decorator Pattern</code> : <code>Adapter</code> 가 interface 차이를 조정하기 위한 것이라면, <code>Decorator</code> 는 interface를 수정하지 않은 채로 기능을 추가한다.</p>
-</li>
+<li><code>Factory Method</code> : <code>Template Method</code> 를 인스턴스 생성에 응용.</li>
+<li><code>Strategy</code> : <code>Template Method</code> 가 ‘상속’을 이용하여 세세한 부분을 구현한다면, <code>Strategy</code> 는 ‘위임’을 이용하여 알고리즘 전체를 완전히 교체한다.</li>
 </ul>
 </section>
     <!-- Tags START -->
@@ -161,8 +153,8 @@
     <span class="tag-code">Design Pattern</span>
   </a>
 
-  <a href="/tags#Structural" >
-    <span class="tag-code">Structural</span>
+  <a href="/tags#Behavioral" >
+    <span class="tag-code">Behavioral</span>
   </a>
 
       </div>
@@ -173,20 +165,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/22/MapReduce-Process/">
+      <a class="nav-left" href="/2018/05/23/Adapter-Pattern/">
         <span class="nav-arrow">← </span>
         
-          MapReduce Process
+          Adapter-Pattern
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/05/25/Template-Method-Pattern/">
-        
-          Template-Method-Pattern
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -209,7 +194,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/23/Adapter-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/05/25/Template-Method-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -265,7 +250,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Adapter-Pattern",
+        id: "Template-Method-Pattern",
         owner: "",
         repo: "",
         oauth: {
