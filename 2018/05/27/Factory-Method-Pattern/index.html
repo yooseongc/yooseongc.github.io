@@ -10,7 +10,7 @@
   
   <title>
     
-      Template-Method-Pattern | A Blackhole
+      Factory-Method-Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Template-Method-Pattern</h2>
-  <p class="post-date">2018-05-25</p>
+  <h2>Factory-Method-Pattern</h2>
+  <p class="post-date">2018-05-27</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,25 +123,30 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Template-Method-Pattern"><a href="#Template-Method-Pattern" class="headerlink" title="Template Method Pattern"></a>Template Method Pattern</h1><p><code>Template method</code> defines the skeleton of an algorithm as an abstract class, allowing its subclasses to provide concrete behavior.</p>
-<p>간단히 말해 템플릿 기능(method)을 가진 패턴.<br>상위 추상 클래스에 interface와 알고리즘을 정해두고, 하위 클래스가 이를 구현한다.<br>상위의 추상 클래스는 기능(알고리즘)에 대한 뼈대 역할을 할 것이다.   </p>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="Template-Method-Pattern.gif" alt="Template-Method-Pattern"></p>
-<h1 id="구셩-요소"><a href="#구셩-요소" class="headerlink" title="구셩 요소"></a>구셩 요소</h1><ol>
-<li>Abstract Class</li>
-<li>Concrete Class</li>
+    <section class="markdown-content"><h1 id="Factory-Method-Pattern"><a href="#Factory-Method-Pattern" class="headerlink" title="Factory Method Pattern"></a>Factory Method Pattern</h1><p><code>Factory method pattern</code> creates objects without specifying the exact class to create.</p>
+<p><code>Template method pattern</code>이 상위 클래스에서 처리의 골격을 만들고 하위 클래스에서 구체적인 처리 내용을 정하는 패턴이였다면 <code>Factory method pattern</code>은 상위 클래스에서 생성의 골격을 만들고 하위 클래스에서 구체적인 생성 내용을 정하는 패턴이 되겠다.</p>
+<p><code>Factory</code>라는 말에서 알 수 있듯이 해당 패턴은 <code>instance</code>를 만드는 공장이 되겠다. 오로지 생성 책임만 지면서 실제 구현 클래스와의 의존성을 제거한다.</p>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="factory-method-pattern.png" alt="factory-method-pattern"></p>
+<h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ol>
+<li>Product : instance의 interface를 정의.</li>
+<li>ConcreteProduct : interface를 구현.</li>
+<li>Creator : Product의 생성 책임을 지고 있는 ConcreteCreator의 골격을 정함.</li>
+<li>ConcreteCreator : Creator를 구현하며 ConcreteProduct 생성의 책임을 지님.</li>
 </ol>
-<h1 id="왜-쓸까"><a href="#왜-쓸까" class="headerlink" title="왜 쓸까?"></a>왜 쓸까?</h1><ul>
-<li>템플릿 메서드에서 이미 알고리즘이 기술되어 있어서 뼈대 알고리즘의 통합 관리가 편하다.   </li>
-<li>The Liskov Substitution Principle (LSP)의 한 사례. (다형성)</li>
-<li>코드 중복을 줄인 채 다양한 변형을 쉽게 만들 수 있다. (객체의 확장이 쉽다.)</li>
+<h1 id="특징"><a href="#특징" class="headerlink" title="특징"></a>특징</h1><ul>
+<li>Product와 Creator는 ConcreteProduct, ConcreteCreator에 의존하고 있지 않다.</li>
+<li>즉, 자유로운 확장에 용이.</li>
 </ul>
-<h1 id="주의-사항"><a href="#주의-사항" class="headerlink" title="주의 사항"></a>주의 사항</h1><ul>
-<li>상속을 이용하므로 상위 클래스와 하위 클래스의 결합도가 높다.</li>
-<li>하위 클래스에서 언제 어떻게 호출될 지 생각해야 한다.</li>
-</ul>
+<h1 id="factory-method의-구현방법"><a href="#factory-method의-구현방법" class="headerlink" title="factory method의 구현방법"></a>factory method의 구현방법</h1><ol>
+<li>추상 메소드를 사용</li>
+<li>default 구현을 준비해 둠. (이 때는 Product 클래스가 추상 클래스가 될 수 없음.)</li>
+<li>default 구현으로 에러를 발생시킴. (하위 클래스에서 구현 되지 않았을 경우 에러 발생.)</li>
+</ol>
 <h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><code>Factory Method</code> : <code>Template Method</code> 를 인스턴스 생성에 응용.</li>
-<li><code>Strategy</code> : <code>Template Method</code> 가 ‘상속’을 이용하여 세세한 부분을 구현한다면, <code>Strategy</code> 는 ‘위임’을 이용하여 알고리즘 전체를 완전히 교체한다.</li>
+<li><code>Template Method</code></li>
+<li><code>Singleton</code> : 같은 생성 책임을 지닌 패턴</li>
+<li><code>Composite</code> : Product 역할에 이 패턴을 적용할 수 있음.</li>
+<li><code>Iterator</code> : <code>Iterator</code> instance 생성 시 <code>Factory Method</code>를 사용할 수 있다.</li>
 </ul>
 </section>
     <!-- Tags START -->
@@ -153,8 +158,8 @@
     <span class="tag-code">Design Pattern</span>
   </a>
 
-  <a href="/tags#Behavioral" >
-    <span class="tag-code">Behavioral</span>
+  <a href="/tags#Creation" >
+    <span class="tag-code">Creation</span>
   </a>
 
       </div>
@@ -165,20 +170,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/23/Adapter-Pattern/">
+      <a class="nav-left" href="/2018/05/25/Template-Method-Pattern/">
         <span class="nav-arrow">← </span>
         
-          Adapter-Pattern
+          Template-Method-Pattern
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/05/27/Factory-Method-Pattern/">
-        
-          Factory-Method-Pattern
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -201,7 +199,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/25/Template-Method-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/05/27/Factory-Method-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -257,7 +255,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Template-Method-Pattern",
+        id: "Factory-Method-Pattern",
         owner: "",
         repo: "",
         oauth: {
