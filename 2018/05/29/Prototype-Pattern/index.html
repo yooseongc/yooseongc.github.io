@@ -10,7 +10,7 @@
   
   <title>
     
-      Factory Method Pattern | A Blackhole
+      Prototype Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Factory Method Pattern</h2>
-  <p class="post-date">2018-05-27</p>
+  <h2>Prototype Pattern</h2>
+  <p class="post-date">2018-05-29</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,30 +123,30 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Factory-Method-Pattern"><a href="#Factory-Method-Pattern" class="headerlink" title="Factory Method Pattern"></a>Factory Method Pattern</h1><p><code>Factory method pattern</code> creates objects without specifying the exact class to create.</p>
-<p><code>Template method pattern</code>이 상위 클래스에서 처리의 골격을 만들고 하위 클래스에서 구체적인 처리 내용을 정하는 패턴이였다면 <code>Factory method pattern</code>은 상위 클래스에서 생성의 골격을 만들고 하위 클래스에서 구체적인 생성 내용을 정하는 패턴이 되겠다.</p>
-<p><code>Factory</code>라는 말에서 알 수 있듯이 해당 패턴은 <code>instance</code>를 만드는 공장이 되겠다. 오로지 생성 책임만 지면서 실제 구현 클래스와의 의존성을 제거한다.</p>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="factory-method-pattern.png" alt="factory-method-pattern"></p>
-<h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ol>
-<li>Product : instance의 interface를 정의.</li>
-<li>ConcreteProduct : interface를 구현.</li>
-<li>Creator : Product의 생성 책임을 지고 있는 ConcreteCreator의 골격을 정함.</li>
-<li>ConcreteCreator : Creator를 구현하며 ConcreteProduct 생성의 책임을 지님.</li>
+    <section class="markdown-content"><h1 id="Prototype-Pattern"><a href="#Prototype-Pattern" class="headerlink" title="Prototype Pattern"></a>Prototype Pattern</h1><p><code>Prototype pattern</code> creates objects by cloning an existing object.   </p>
+<p>생성자를 사용하여 <strong>instance</strong> 를 생성하는 경우에는 클래스 이름(타입)을 반드시 지정해야 한다.<br>그러나 아래의 경우에는 타입 없이 클래스를 생성하는 것을 고려해 볼 만 하다.</p>
+<ol>
+<li>취급하는 객체의 종류가 너무 많고 각각을 별도 클래스로 만들어 관리해야 하는 경우</li>
+<li>instance가 복잡한 과정을 거쳐 생성되어 클래스로부터 만들기 어려운 경우</li>
+<li>instance를 특정 클래스에 의존하지 않고 framework 상에서 추상적으로 다루고 싶은 경우</li>
 </ol>
-<h1 id="특징"><a href="#특징" class="headerlink" title="특징"></a>특징</h1><ul>
-<li>Product와 Creator는 ConcreteProduct, ConcreteCreator에 의존하고 있지 않다.</li>
-<li>즉, 자유로운 확장에 용이.</li>
+<p>이러한 경우 <strong>‘모형’</strong> 이 되는 instance를 등록해 두고, 이를 복사하여 인스턴스를 생성할 수 있다.<br>클래스 타입으로부터의 속박을 풀어주는 역할로도 쓰기 좋다.</p>
+<ul>
+<li><strong>Prototype</strong> : <strong>모형</strong> 혹은 <strong>모범</strong>   </li>
+<li><strong>clone</strong> : <strong>복제</strong></li>
 </ul>
-<h1 id="factory-method의-구현방법"><a href="#factory-method의-구현방법" class="headerlink" title="factory method의 구현방법"></a>factory method의 구현방법</h1><ol>
-<li>추상 메소드를 사용</li>
-<li>default 구현을 준비해 둠. (이 때는 Product 클래스가 추상 클래스가 될 수 없음.)</li>
-<li>default 구현으로 에러를 발생시킴. (하위 클래스에서 구현 되지 않았을 경우 에러 발생.)</li>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="prototype-pattern.png" alt="prototype-pattern"></p>
+<h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ol>
+<li><code>Prototype</code> : <strong>clone</strong> 할 객체의 interface를 결정</li>
+<li><code>ConcretePrototype</code> : 자신을 복제 생성하는 <code>clone()</code> 을 구현.</li>
+<li><code>Client</code> : <code>Prototype</code> instance를 생성하는 책임을 가짐. <code>ConcretePrototype</code> 에 대해 모른다.</li>
 </ol>
 <h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><code>Template Method</code></li>
-<li><code>Singleton</code> : 같은 생성 책임을 지닌 패턴</li>
-<li><code>Composite</code> : Product 역할에 이 패턴을 적용할 수 있음.</li>
-<li><code>Iterator</code> : <code>Iterator</code> instance 생성 시 <code>Factory Method</code>를 사용할 수 있다.</li>
+<li><strong>FlyWeight</strong> : 하나의 인스턴스를 여러 곳에서 공유해서 이용</li>
+<li><strong>Memento</strong> : 스냅샷/undo 를 위해 현재 인스턴스의 상태를 저장</li>
+<li><strong>Composite</strong> : 복잡한 구조의 인스턴스가 동적으로 만들어질 때 <code>prototype</code> 활용 가능</li>
+<li><strong>Decorator</strong> : 복잡한 구조의 인스턴스가 동적으로 만들어질 때 <code>prototype</code> 활용 가능</li>
+<li><strong>Command</strong> : 명령을 복제하고 싶은 경우 <code>prototype</code> 패턴 사용</li>
 </ul>
 </section>
     <!-- Tags START -->
@@ -170,20 +170,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/25/Template-Method-Pattern/">
+      <a class="nav-left" href="/2018/05/29/Singleton-Pattern/">
         <span class="nav-arrow">← </span>
-        
-          Template Method Pattern
-        
-      </a>
-    
-    
-      <a class="nav-right" href="/2018/05/29/Singleton-Pattern/">
         
           Singleton Pattern
         
-        <span class="nav-arrow"> →</span>
       </a>
+    
     
   </div>
 
@@ -206,7 +199,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/27/Factory-Method-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/05/29/Prototype-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -262,7 +255,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Factory Method Pattern",
+        id: "Prototype Pattern",
         owner: "",
         repo: "",
         oauth: {
