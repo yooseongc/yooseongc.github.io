@@ -10,7 +10,7 @@
   
   <title>
     
-      Prototype Pattern | A Blackhole
+      Builder Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Prototype Pattern</h2>
-  <p class="post-date">2018-05-29</p>
+  <h2>Builder Pattern</h2>
+  <p class="post-date">2018-06-02</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,31 +123,14 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Prototype-Pattern"><a href="#Prototype-Pattern" class="headerlink" title="Prototype Pattern"></a>Prototype Pattern</h1><p><code>Prototype pattern</code> creates objects by cloning an existing object.   </p>
-<p>생성자를 사용하여 <strong>instance</strong> 를 생성하는 경우에는 클래스 이름(타입)을 반드시 지정해야 한다.<br>그러나 아래의 경우에는 타입 없이 클래스를 생성하는 것을 고려해 볼 만 하다.</p>
-<ol>
-<li>취급하는 객체의 종류가 너무 많고 각각을 별도 클래스로 만들어 관리해야 하는 경우</li>
-<li>instance가 복잡한 과정을 거쳐 생성되어 클래스로부터 만들기 어려운 경우</li>
-<li>instance를 특정 클래스에 의존하지 않고 framework 상에서 추상적으로 다루고 싶은 경우</li>
-</ol>
-<p>이러한 경우 <strong>‘모형’</strong> 이 되는 instance를 등록해 두고, 이를 복사하여 인스턴스를 생성할 수 있다.<br>클래스 타입으로부터의 속박을 풀어주는 역할로도 쓰기 좋다.</p>
-<ul>
-<li><strong>Prototype</strong> : <strong>모형</strong> 혹은 <strong>모범</strong>   </li>
-<li><strong>clone</strong> : <strong>복제</strong></li>
+    <section class="markdown-content"><h1 id="Builder-Pattern"><a href="#Builder-Pattern" class="headerlink" title="Builder Pattern"></a>Builder Pattern</h1><p>마치 건물을 세울 때 처럼 전체를 구성하고 있는 각 부분을 단계를 밟아 만들어 나가는 것 처럼 <strong>instance</strong> 를 만들어 나가는 패턴.</p>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="builder-pattern.png" alt="builder-pattern"></p>
+<h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ul>
+<li><strong>Builder</strong> : <code>ConcreteBuilder</code> 의 <strong>interface</strong> 를 정의.</li>
+<li><strong>ConcreteBuilder</strong> : <code>Builder</code> 를 구현.</li>
+<li><strong>Director</strong> : <code>Builder</code> 를 이용해 <strong>instance</strong> 를 생성.</li>
 </ul>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="prototype-pattern.png" alt="prototype-pattern"></p>
-<h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ol>
-<li><code>Prototype</code> : <strong>clone</strong> 할 객체의 interface를 결정</li>
-<li><code>ConcretePrototype</code> : 자신을 복제 생성하는 <code>clone()</code> 을 구현.</li>
-<li><code>Client</code> : <code>Prototype</code> instance를 생성하는 책임을 가짐. <code>ConcretePrototype</code> 에 대해 모른다.</li>
-</ol>
-<h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><strong>FlyWeight</strong> : 하나의 인스턴스를 여러 곳에서 공유해서 이용</li>
-<li><strong>Memento</strong> : 스냅샷/undo 를 위해 현재 인스턴스의 상태를 저장</li>
-<li><strong>Composite</strong> : 복잡한 구조의 인스턴스가 동적으로 만들어질 때 <code>prototype</code> 활용 가능</li>
-<li><strong>Decorator</strong> : 복잡한 구조의 인스턴스가 동적으로 만들어질 때 <code>prototype</code> 활용 가능</li>
-<li><strong>Command</strong> : 명령을 복제하고 싶은 경우 <code>prototype</code> 패턴 사용</li>
-</ul>
+<h1 id="확장"><a href="#확장" class="headerlink" title="확장"></a>확장</h1><p><code>Builder</code>는 목적을 달성하기 위해 필요충분한 interface 집합을 선언해야 한다.<br>또한 <code>Builder</code>는 구현 클래스의 확장 요구에도 대응 할 필요가 있다.<br>적어도 가까운 미래에 발생할 것으로 예상 되는 변화는 적응할 수 있도록 설계해야 한다.   </p>
 </section>
     <!-- Tags START -->
     
@@ -170,20 +153,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/29/Singleton-Pattern/">
+      <a class="nav-left" href="/2018/05/29/Prototype-Pattern/">
         <span class="nav-arrow">← </span>
         
-          Singleton Pattern
+          Prototype Pattern
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/06/02/Builder-Pattern/">
-        
-          Builder Pattern
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -206,7 +182,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/05/29/Prototype-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/06/02/Builder-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -262,7 +238,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Prototype Pattern",
+        id: "Builder Pattern",
         owner: "",
         repo: "",
         oauth: {
