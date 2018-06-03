@@ -10,7 +10,7 @@
   
   <title>
     
-      Builder Pattern | A Blackhole
+      Abstract Factory Pattern | A Blackhole
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -114,8 +114,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Builder Pattern</h2>
-  <p class="post-date">2018-06-02</p>
+  <h2>Abstract Factory Pattern</h2>
+  <p class="post-date">2018-06-03</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -123,20 +123,25 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Builder-Pattern"><a href="#Builder-Pattern" class="headerlink" title="Builder Pattern"></a>Builder Pattern</h1><p><code>Builder pattern</code> constructs complex objects by separating construction and representation.</p>
-<p>마치 건물을 세울 때 처럼 전체를 구성하고 있는 각 부분을 단계를 밟아 만들어 나가는 것 처럼 <strong>instance</strong> 를 만들어 나가는 패턴.</p>
-<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="builder-pattern.png" alt="builder-pattern"></p>
+    <section class="markdown-content"><h1 id="Abstract-Factory-Pattern"><a href="#Abstract-Factory-Pattern" class="headerlink" title="Abstract Factory Pattern"></a>Abstract Factory Pattern</h1><p><code>Abstract factory pattern</code> groups object factories that have a common theme.</p>
+<p>구체적인 <code>생성 구현</code>은 하위 클래스에게 맡기고 추상적인 팩토리들을 조합한다.</p>
+<h1 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h1><p><img src="abstract-factory-pattern.jpg" alt="abstract-factory-pattern"></p>
 <h1 id="구성-요소"><a href="#구성-요소" class="headerlink" title="구성 요소"></a>구성 요소</h1><ul>
-<li><strong>Builder</strong> : <code>ConcreteBuilder</code> 의 <strong>interface</strong> 를 정의.</li>
-<li><strong>ConcreteBuilder</strong> : <code>Builder</code> 를 구현.</li>
-<li><strong>Director</strong> : <code>Builder</code> 를 이용해 <strong>instance</strong> 를 생성.</li>
+<li><code>AbstrctFactory</code> : <code>AbstractProduct</code>의 생성 책임을 가짐.</li>
+<li><code>AbstractProduct</code> : 추상 생성된 <strong>instance</strong> 의 <strong>interface</strong> 를 정의.</li>
+<li><code>ConcreteFactory</code> : <code>AbstractProduct</code>를 구현하여 대응되는 <strong>theme</strong> 의 <code>ConcreteProduct</code>를 생성, 그룹지음.</li>
+<li><code>ConcreteProduct</code> : <code>AbstractProduct</code>의 interface를 구현.</li>
+<li><code>Client</code> : <code>AbstractFactory</code>와 <code>AbstractProduct</code>를 사용해 주어진 역할을 수행.</li>
 </ul>
-<h1 id="확장"><a href="#확장" class="headerlink" title="확장"></a>확장</h1><p><code>Builder</code>는 목적을 달성하기 위해 필요충분한 interface 집합을 선언해야 한다.<br>또한 <code>Builder</code>는 구현 클래스의 확장 요구에도 대응 할 필요가 있다.<br>적어도 가까운 미래에 발생할 것으로 예상 되는 변화는 적응할 수 있도록 설계해야 한다.   </p>
+<h1 id="확장"><a href="#확장" class="headerlink" title="확장"></a>확장</h1><ul>
+<li><code>ConcreteFactory</code>를 확장하는 것은 매우 쉽다. 해당 <strong>interface</strong> 가 이미 구체화 되어 있으며, <code>Abstract</code> 파트를 수정할 필요가 없다.</li>
+<li><code>Product</code>를 추가하게 되면 수정해야할 부분이 매우 많아진다.</li>
+</ul>
 <h1 id="관련-패턴"><a href="#관련-패턴" class="headerlink" title="관련 패턴"></a>관련 패턴</h1><ul>
-<li><code>Template Method</code> : <strong>Director</strong> 가 <strong>Builder</strong> 를 제어하는 구조는 <code>Template Method</code>의 상위 클래스가 하위 클래스를 제어하는 구조와 유사.</li>
-<li><code>Composite</code> : <code>Builder</code>에 의해 만들어진 생성물이 <code>Composite</code>가 되는 경우가 있음.</li>
-<li><code>Abstract Factory</code> : <code>Builder</code>와 마찬가지로 복잡한 인스턴스를 생성하는데 적격.</li>
-<li><code>Facade</code> : <code>Facade</code>의 역할은 <strong>Director</strong> 의 역할과 유사하게 내부 모듈을 조합하여 단순한 <strong>interface</strong> 를 외부에 제공한다.</li>
+<li><code>Builder</code> : <code>Builder</code>는 복잡한 instance를 단계적으로 만든다면, <code>Abstract Factory</code>는 추상적인 부품의 조합이란 측면으로 다가간다.</li>
+<li><code>Factory Method</code> : 제품이나 부품을 만들 때 <code>Factory Method</code>로 되는 경우가 종종 있다.</li>
+<li><code>Composite</code> : <code>Abstract Factory</code>로 만들어진 제품이 <code>Composite</code>로 되는 경우가 종종 있다.</li>
+<li><code>Singleton</code> : <code>ConcreteFactory</code>가 <code>Singleton</code>으로 된 경우가 종종 있다.</li>
 </ul>
 </section>
     <!-- Tags START -->
@@ -160,20 +165,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/05/29/Prototype-Pattern/">
+      <a class="nav-left" href="/2018/06/02/Builder-Pattern/">
         <span class="nav-arrow">← </span>
         
-          Prototype Pattern
+          Builder Pattern
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/06/03/Abstract-Factory-Pattern/">
-        
-          Abstract Factory Pattern
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -196,7 +194,7 @@
 
 <script>
   (function () {
-    var url = 'https://yooseongc.github.io/2018/06/02/Builder-Pattern/';
+    var url = 'https://yooseongc.github.io/2018/06/03/Abstract-Factory-Pattern/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -252,7 +250,7 @@
     var gitmentConfig = "";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Builder Pattern",
+        id: "Abstract Factory Pattern",
         owner: "",
         repo: "",
         oauth: {
