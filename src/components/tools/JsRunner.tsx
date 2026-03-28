@@ -1,9 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 
 interface ConsoleEntry {
   type: 'log' | 'error' | 'warn' | 'info';
   args: string;
-  timestamp: number;
 }
 
 const SAMPLE_CODE = `// JavaScript Runner
@@ -27,72 +26,69 @@ export function JsRunner() {
   const [entries, setEntries] = useState<ConsoleEntry[]>([]);
   const [running, setRunning] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const timeoutRef = useRef<number>();
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      const data = e.data;
+      if (data?.source !== 'js-runner') return;
+      if (data.type === 'console') {
+        setEntries((prev) => [...prev, { type: data.level, args: data.args }]);
+      }
+      if (data.type === 'done') {
+        setRunning(false);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
 
   const handleRun = useCallback(() => {
     setEntries([]);
     setRunning(true);
 
+    const escapedCode = code
+      .replace(/\\/g, '\\\\')
+      .replace(/`/g, '\\`')
+      .replace(/<\/script>/gi, '<\\/script>');
+
+    const html = `<!DOCTYPE html><html><body><script>
+function serialize(args) {
+  return Array.from(args).map(function(a) {
+    if (a === null) return 'null';
+    if (a === undefined) return 'undefined';
+    if (typeof a === 'object') {
+      try { return JSON.stringify(a, null, 2); } catch(e) { return String(a); }
+    }
+    return String(a);
+  }).join(' ');
+}
+['log','error','warn','info'].forEach(function(m) {
+  console[m] = function() {
+    parent.postMessage({ source: 'js-runner', type: 'console', level: m, args: serialize(arguments) }, '*');
+  };
+});
+window.onerror = function(msg, src, line) {
+  parent.postMessage({ source: 'js-runner', type: 'console', level: 'error', args: msg + (line ? ' (line ' + line + ')' : '') }, '*');
+};
+try {
+  ${escapedCode}
+} catch(e) {
+  console.error(e.toString());
+}
+parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
+<\/script></body></html>`;
+
     const iframe = iframeRef.current;
-    if (!iframe) { setRunning(false); return; }
+    if (iframe) {
+      iframe.srcdoc = html;
+    }
 
-    const doc = iframe.contentDocument;
-    if (!doc) { setRunning(false); return; }
-
-    // Build a sandboxed HTML that captures console output
-    const html = `<!DOCTYPE html><html><head><script>
-      const results = [];
-      function serialize(args) {
-        return Array.from(args).map(a => {
-          if (a === null) return 'null';
-          if (a === undefined) return 'undefined';
-          if (typeof a === 'object') {
-            try { return JSON.stringify(a, null, 2); } catch { return String(a); }
-          }
-          return String(a);
-        }).join(' ');
-      }
-      ['log','error','warn','info'].forEach(m => {
-        console[m] = function() {
-          results.push({ type: m, args: serialize(arguments), timestamp: Date.now() });
-          parent.postMessage({ type: 'console', entries: results }, '*');
-        };
-      });
-      window.onerror = function(msg, src, line, col, err) {
-        results.push({ type: 'error', args: String(msg) + (line ? ' (line ' + line + ')' : ''), timestamp: Date.now() });
-        parent.postMessage({ type: 'console', entries: results }, '*');
-      };
-    <\/script></head><body><script>
-      try {
-        ${code.replace(/<\/script>/gi, '<\\/script>')}
-      } catch(e) {
-        console.error(e.toString());
-      }
-      parent.postMessage({ type: 'done', entries: results }, '*');
-    <\/script></body></html>`;
-
-    const handler = (e: MessageEvent) => {
-      if (e.source !== iframe.contentWindow) return;
-      const data = e.data;
-      if (data?.type === 'console' || data?.type === 'done') {
-        setEntries(data.entries || []);
-      }
-      if (data?.type === 'done') {
-        setRunning(false);
-        window.removeEventListener('message', handler);
-      }
-    };
-
-    window.addEventListener('message', handler);
-
-    // Timeout fallback
-    setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       setRunning(false);
-      window.removeEventListener('message', handler);
+      setEntries((prev) => [...prev, { type: 'error', args: '실행 시간 초과 (5초)' }]);
     }, 5000);
-
-    doc.open();
-    doc.write(html);
-    doc.close();
   }, [code]);
 
   function handleClear() {
@@ -100,10 +96,10 @@ export function JsRunner() {
   }
 
   const typeColor: Record<string, string> = {
-    log: 'text-gray-800 dark:text-gray-200',
-    error: 'text-red-500 dark:text-red-400',
-    warn: 'text-amber-600 dark:text-amber-400',
-    info: 'text-blue-500 dark:text-blue-400',
+    log: 'text-gray-200',
+    error: 'text-red-400',
+    warn: 'text-amber-400',
+    info: 'text-blue-400',
   };
 
   const typeLabel: Record<string, string> = {
@@ -123,13 +119,13 @@ export function JsRunner() {
             <button
               onClick={handleRun}
               disabled={running}
-              className="px-4 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
             >
               {running ? '실행 중...' : '실행 (Run)'}
             </button>
             <button
               onClick={handleClear}
-              className="px-4 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               Clear
             </button>
@@ -139,7 +135,7 @@ export function JsRunner() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           spellCheck={false}
-          className="w-full h-64 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent tab-size-2"
+          className="w-full h-64 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent leading-5"
           onKeyDown={(e) => {
             if (e.key === 'Tab') {
               e.preventDefault();
@@ -180,7 +176,7 @@ export function JsRunner() {
       <iframe
         ref={iframeRef}
         sandbox="allow-scripts"
-        className="hidden"
+        className="w-0 h-0 border-0 absolute"
         title="JS Runner Sandbox"
       />
     </div>

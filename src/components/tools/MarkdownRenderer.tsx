@@ -95,30 +95,71 @@ function simpleMarkdown(md: string): string {
   return html;
 }
 
+type ViewMode = 'split' | 'editor' | 'preview';
+
 export function MarkdownRenderer() {
   const [input, setInput] = useState(SAMPLE);
+  const [viewMode, setViewMode] = useState<ViewMode>('split');
 
   const rendered = useMemo(() => simpleMarkdown(input), [input]);
+  const lineCount = useMemo(() => input.split('\n').length, [input]);
+
+  const showEditor = viewMode === 'split' || viewMode === 'editor';
+  const showPreview = viewMode === 'split' || viewMode === 'preview';
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[500px]">
-      {/* Editor */}
-      <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Markdown</label>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="flex-1 min-h-[400px] px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-        />
+    <div className="space-y-4">
+      {/* View mode toggle */}
+      <div className="flex gap-2">
+        {([
+          { key: 'editor', label: 'Editor' },
+          { key: 'split', label: 'Split' },
+          { key: 'preview', label: 'Preview' },
+        ] as const).map(({ key, label }) => (
+          <button
+            key={key}
+            onClick={() => setViewMode(key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === key
+                ? 'bg-emerald-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
-      {/* Preview */}
-      <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Preview</label>
-        <div
-          className="flex-1 min-h-[400px] px-6 py-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 text-sm overflow-auto"
-          dangerouslySetInnerHTML={{ __html: rendered }}
-        />
+      <div className={`grid gap-4 min-h-[500px] ${viewMode === 'split' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+        {/* Editor */}
+        {showEditor && (
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Markdown</label>
+            <div className="flex flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent">
+              <div className="select-none px-3 py-3 text-right text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5">
+                {Array.from({ length: Math.max(lineCount, 20) }, (_, i) => (
+                  <div key={i}>{i + 1}</div>
+                ))}
+              </div>
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1 min-h-[400px] px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-none focus:outline-none leading-5"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Preview */}
+        {showPreview && (
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Preview</label>
+            <div
+              className="flex-1 min-h-[400px] px-6 py-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50 text-gray-900 dark:text-gray-100 text-sm overflow-auto"
+              dangerouslySetInnerHTML={{ __html: rendered }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

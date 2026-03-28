@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export function Base64Converter() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [mode, setMode] = useState<'encode' | 'decode'>('encode');
   const [error, setError] = useState('');
+  const [toast, setToast] = useState(false);
 
   function handleConvert(text: string, m: 'encode' | 'decode') {
     setInput(text);
@@ -31,6 +32,8 @@ export function Base64Converter() {
 
   function handleCopy() {
     navigator.clipboard.writeText(output);
+    setToast(true);
+    setTimeout(() => setToast(false), 2000);
   }
 
   function handleSwap() {
@@ -103,7 +106,7 @@ export function Base64Converter() {
           {output && (
             <button
               onClick={handleCopy}
-              className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             >
               복사
             </button>
@@ -119,6 +122,13 @@ export function Base64Converter() {
       {/* Error */}
       {error && (
         <p className="text-sm text-red-500 dark:text-red-400">{error}</p>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 px-4 py-2.5 rounded-lg bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-medium shadow-lg animate-fade-in z-50">
+          클립보드에 복사되었습니다
+        </div>
       )}
     </div>
   );

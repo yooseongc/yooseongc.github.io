@@ -13,6 +13,14 @@ interface ApiResponse {
   headers: Record<string, string>;
   body: string;
   time: number;
+  requestHeaders: Record<string, string>;
+}
+
+interface ErrorInfo {
+  message: string;
+  details: string;
+  time: number;
+  requestHeaders: Record<string, string>;
 }
 
 const METHODS: HttpMethod[] = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
@@ -31,7 +39,7 @@ export function ApiTester() {
   const [headers, setHeaders] = useState<HeaderEntry[]>([{ key: 'Content-Type', value: 'application/json' }]);
   const [body, setBody] = useState('');
   const [response, setResponse] = useState<ApiResponse | null>(null);
-  const [error, setError] = useState('');
+  const [errorInfo, setErrorInfo] = useState<ErrorInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'body' | 'headers'>('body');
 
@@ -50,17 +58,17 @@ export function ApiTester() {
   }
 
   async function handleSend() {
-    setError('');
+    setErrorInfo(null);
     setResponse(null);
-    if (!url.trim()) { setError('URL을 입력하세요.'); return; }
+    if (!url.trim()) { setErrorInfo({ message: 'URL을 입력하세요.', details: '', time: 0, requestHeaders: {} }); return; }
 
     setLoading(true);
     const start = performance.now();
 
-    try {
-      const reqHeaders: Record<string, string> = {};
-      headers.forEach((h) => { if (h.key.trim()) reqHeaders[h.key.trim()] = h.value; });
+    const reqHeaders: Record<string, string> = {};
+    headers.forEach((h) => { if (h.key.trim()) reqHeaders[h.key.trim()] = h.value; });
 
+    try {
       const options: RequestInit = { method, headers: reqHeaders };
       if (['POST', 'PUT', 'PATCH'].includes(method) && body.trim()) {
         options.body = body;
@@ -80,10 +88,16 @@ export function ApiTester() {
         resBody = await res.text();
       }
 
-      setResponse({ status: res.status, statusText: res.statusText, headers: resHeaders, body: resBody, time });
+      setResponse({ status: res.status, statusText: res.statusText, headers: resHeaders, body: resBody, time, requestHeaders: reqHeaders });
     } catch (e) {
-      const msg = e instanceof TypeError ? 'CORS 정책에 의해 차단되었거나 네트워크 오류가 발생했습니다.' : String(e);
-      setError(msg);
+      const time = Math.round(performance.now() - start);
+      const message = e instanceof TypeError
+        ? 'CORS 정책에 의해 차단되었거나 네트워크 오류가 발생했습니다.'
+        : 'Request failed';
+      const details = e instanceof Error
+        ? `${e.name}: ${e.message}${e.stack ? '\n\nStack trace:\n' + e.stack : ''}`
+        : String(e);
+      setErrorInfo({ message, details, time, requestHeaders: reqHeaders });
     } finally {
       setLoading(false);
     }
@@ -195,9 +209,37 @@ export function ApiTester() {
         * 브라우저의 CORS 정책으로 인해 일부 API는 요청이 차단될 수 있습니다.
       </p>
 
-      {error && (
-        <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4">
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+      {/* Error with details */}
+      {errorInfo && (
+        <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
+          <div className="flex items-center gap-3 px-4 py-3 border-b border-red-200 dark:border-red-800">
+            <span className="text-sm font-semibold text-red-600 dark:text-red-400">Error</span>
+            {errorInfo.time > 0 && <span className="text-xs text-gray-400">{errorInfo.time}ms</span>}
+          </div>
+          <div className="p-4">
+            <p className="text-sm text-red-600 dark:text-red-400 font-medium">{errorInfo.message}</p>
+            {errorInfo.details && (
+              <pre className="mt-3 p-3 rounded bg-red-100 dark:bg-red-900/30 text-xs font-mono text-red-700 dark:text-red-300 overflow-auto max-h-[200px] whitespace-pre-wrap">
+                {errorInfo.details}
+              </pre>
+            )}
+          </div>
+          {/* Request headers on error */}
+          {Object.keys(errorInfo.requestHeaders).length > 0 && (
+            <details className="border-t border-red-200 dark:border-red-800">
+              <summary className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:bg-red-100/50 dark:hover:bg-red-900/10">
+                Request Headers ({Object.keys(errorInfo.requestHeaders).length})
+              </summary>
+              <div className="px-4 pb-3 space-y-1">
+                {Object.entries(errorInfo.requestHeaders).map(([k, v]) => (
+                  <div key={k} className="flex gap-2 font-mono text-xs">
+                    <span className="text-emerald-600 dark:text-emerald-400">{k}:</span>
+                    <span className="text-gray-600 dark:text-gray-400">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
         </div>
       )}
 
@@ -211,6 +253,23 @@ export function ApiTester() {
             <span className="text-xs text-gray-400">{response.time}ms</span>
             <span className="text-xs text-gray-400">{new TextEncoder().encode(response.body).length} bytes</span>
           </div>
+
+          {/* Request headers */}
+          {Object.keys(response.requestHeaders).length > 0 && (
+            <details className="border-b border-gray-200 dark:border-gray-700">
+              <summary className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
+                Request Headers ({Object.keys(response.requestHeaders).length})
+              </summary>
+              <div className="px-4 pb-3 space-y-1">
+                {Object.entries(response.requestHeaders).map(([k, v]) => (
+                  <div key={k} className="flex gap-2 font-mono text-xs">
+                    <span className="text-blue-600 dark:text-blue-400">{k}:</span>
+                    <span className="text-gray-600 dark:text-gray-400">{v}</span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
 
           {/* Response headers */}
           {Object.keys(response.headers).length > 0 && (
