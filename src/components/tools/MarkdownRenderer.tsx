@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useCallback } from 'react';
 
 const SAMPLE = `# Markdown Preview
 
@@ -103,6 +103,14 @@ export function MarkdownRenderer() {
 
   const rendered = useMemo(() => simpleMarkdown(input), [input]);
   const lineCount = useMemo(() => input.split('\n').length, [input]);
+  const gutterRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleScroll = useCallback(() => {
+    if (gutterRef.current && textareaRef.current) {
+      gutterRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  }, []);
 
   const showEditor = viewMode === 'split' || viewMode === 'editor';
   const showPreview = viewMode === 'split' || viewMode === 'preview';
@@ -136,15 +144,20 @@ export function MarkdownRenderer() {
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Markdown</label>
             <div className="flex flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent">
-              <div className="select-none px-3 py-3 text-right text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5">
-                {Array.from({ length: Math.max(lineCount, 20) }, (_, i) => (
+              <div
+                ref={gutterRef}
+                className="select-none w-12 shrink-0 py-3 text-right pr-3 text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5 overflow-y-hidden"
+              >
+                {Array.from({ length: Math.max(lineCount, 1) }, (_, i) => (
                   <div key={i}>{i + 1}</div>
                 ))}
               </div>
               <textarea
+                ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 min-h-[400px] px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-none focus:outline-none leading-5"
+                onScroll={handleScroll}
+                className="flex-1 min-h-[400px] px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-none focus:outline-none leading-5 overflow-y-auto"
               />
             </div>
           </div>

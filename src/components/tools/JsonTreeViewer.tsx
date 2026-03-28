@@ -172,23 +172,25 @@ export function JsonTreeViewer() {
           </div>
         </div>
         {/* Textarea with synced line numbers */}
-        <div className="flex rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent">
-          <div
-            ref={gutterRef}
-            className="select-none px-3 py-3 text-right text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5 overflow-hidden"
-          >
-            {Array.from({ length: lineCount }, (_, i) => (
-              <div key={i}>{i + 1}</div>
-            ))}
+        <div className="relative rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent">
+          <div className="flex h-60">
+            <div
+              ref={gutterRef}
+              className="select-none w-12 shrink-0 py-3 text-right pr-3 text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5 overflow-y-hidden"
+            >
+              {Array.from({ length: Math.max(lineCount, 1) }, (_, i) => (
+                <div key={i}>{i + 1}</div>
+              ))}
+            </div>
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => handleParse(e.target.value)}
+              onScroll={handleScroll}
+              placeholder='{"key": "value"}'
+              className="flex-1 px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-none focus:outline-none leading-5 overflow-y-auto"
+            />
           </div>
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => handleParse(e.target.value)}
-            onScroll={handleScroll}
-            placeholder='{"key": "value"}'
-            className="flex-1 h-48 px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none leading-5"
-          />
         </div>
         {error && <p className="mt-1 text-sm text-red-500 dark:text-red-400">{error}</p>}
       </div>

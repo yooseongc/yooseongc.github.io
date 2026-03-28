@@ -79,6 +79,8 @@ function formatExp(exp: number): { text: string; expired: boolean } {
   return { text: `${date.toISOString()} (${relative})`, expired };
 }
 
+const SAMPLE_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Inlvb3Nlb25nYyIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODkzNDU2MDAwLCJyb2xlIjoiYWRtaW4ifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
 export function JwtDecoder() {
   const [input, setInput] = useState('');
   const [toast, setToast] = useState(false);
@@ -124,7 +126,15 @@ export function JwtDecoder() {
     <div className="space-y-6">
       {/* Input */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">JWT Token</label>
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">JWT Token</label>
+          <button
+            onClick={() => setInput(SAMPLE_JWT)}
+            className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          >
+            Sample
+          </button>
+        </div>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}

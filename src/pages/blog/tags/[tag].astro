@@ -1,0 +1,71 @@
+---
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { PostCard } from '../../../components/PostCard';
+import { TagBadge } from '../../../components/TagBadge';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tagSet = new Set<string>();
+  posts.forEach((p) => p.data.tags.forEach((t) => tagSet.add(t)));
+
+  return [...tagSet].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+
+// All tags for the tag cloud
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const tagCounts = new Map<string, number>();
+allPosts.forEach((p) => p.data.tags.forEach((t) => {
+  tagCounts.set(t, (tagCounts.get(t) || 0) + 1);
+}));
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BlogLayout title={`#${tag}`} showTOC={false}>
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <div class="mb-8">
+      <a href="/blog" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Blog</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">#{tag}</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{posts.length}개의 포스트</p>
+    </div>
+
+    {/* Tag cloud */}
+    <div class="flex flex-wrap gap-2 mb-8">
+      {sortedTags.map(([t, count]) => (
+        <a
+          href={`/blog/tags/${t}`}
+          class={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs transition-colors ${
+            t === tag
+              ? 'bg-emerald-600 text-white'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-400'
+          }`}
+        >
+          {t}
+          <span class="text-[10px] opacity-70">({count})</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="grid gap-4">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date.toISOString().slice(0, 10)}
+          excerpt={post.data.excerpt}
+          tags={post.data.tags}
+          slug={post.id}
+        />
+      ))}
+    </div>
+  </div>
+</BlogLayout>

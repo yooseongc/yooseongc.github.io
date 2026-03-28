@@ -215,6 +215,38 @@ export function RegexTester() {
           </div>
         </div>
       )}
+      {/* Language compatibility reference */}
+      <details className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900/50">
+        <summary className="px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
+          언어별 Regex 호환성 참고
+        </summary>
+        <div className="px-4 pb-4 text-xs text-gray-600 dark:text-gray-400 space-y-2">
+          <p className="text-gray-500 dark:text-gray-500">이 테스터는 JavaScript(ECMAScript) regex 엔진을 사용합니다. 다른 언어와의 주요 차이점:</p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-gray-700">
+                  <th className="text-left py-1.5 pr-3 font-semibold">기능</th>
+                  <th className="text-center py-1.5 px-2 font-semibold">JS</th>
+                  <th className="text-center py-1.5 px-2 font-semibold">Python</th>
+                  <th className="text-center py-1.5 px-2 font-semibold">C++ (std)</th>
+                  <th className="text-center py-1.5 px-2 font-semibold">PCRE</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                <tr><td className="py-1 pr-3">Named groups <code className="text-emerald-600 dark:text-emerald-400">{`(?<name>)`}</code></td><td className="text-center">O</td><td className="text-center">O <code>(?P&lt;name&gt;)</code></td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">Lookbehind <code className="text-emerald-600 dark:text-emerald-400">{`(?<=)`}</code></td><td className="text-center">O</td><td className="text-center">O</td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">Unicode property <code className="text-emerald-600 dark:text-emerald-400">{`\\p{L}`}</code></td><td className="text-center">O (u flag)</td><td className="text-center">X</td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">Atomic groups <code className="text-emerald-600 dark:text-emerald-400">{`(?>)`}</code></td><td className="text-center">X</td><td className="text-center">X</td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">Possessive quantifier <code className="text-emerald-600 dark:text-emerald-400">++</code></td><td className="text-center">X</td><td className="text-center">X</td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">Conditional <code className="text-emerald-600 dark:text-emerald-400">{`(?(1)a|b)`}</code></td><td className="text-center">X</td><td className="text-center">O</td><td className="text-center">X</td><td className="text-center">O</td></tr>
+                <tr><td className="py-1 pr-3">dotAll (s flag)</td><td className="text-center">O</td><td className="text-center">O (re.S)</td><td className="text-center">X</td><td className="text-center">O (s flag)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-gray-500 dark:text-gray-500 mt-2">* C++ std::regex는 ECMAScript 모드(기본) 기준. Boost.Regex는 PCRE와 유사.</p>
+        </div>
+      </details>
     </div>
   );
 }

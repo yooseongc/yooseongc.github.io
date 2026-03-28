@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 interface Props {
   title?: string;
   description?: string;
@@ -25,6 +27,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     <meta name="theme-color" content="#059669" />
     <link rel="canonical" href={canonicalUrl} />
     <title>{pageTitle}</title>
+    <ClientRouter />
 
     <!-- FOUC prevention: apply dark class before paint -->
     <script is:inline>

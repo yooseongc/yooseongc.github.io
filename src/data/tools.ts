@@ -26,6 +26,7 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Markdown Renderer', slug: 'markdown', description: 'Markdown 실시간 미리보기', status: 'ready' },
       { name: 'OpenAPI Viewer', slug: 'openapi', description: 'OpenAPI/Swagger 스펙 뷰어', status: 'ready' },
       { name: 'Hex Viewer', slug: 'hex-viewer', description: '텍스트/파일의 hex dump 표시', status: 'ready' },
+      { name: 'Diff Viewer', slug: 'diff', description: '텍스트 비교 및 차이점 시각화', status: 'ready' },
     ],
   },
   {
@@ -45,6 +46,7 @@ export const toolCategories: ToolCategory[] = [
       { name: 'Regex Tester', slug: 'regex', description: '정규식 테스트 및 매칭 하이라이트', status: 'ready' },
       { name: 'Cron Parser', slug: 'cron', description: 'Cron 표현식 파싱 및 실행 스케줄 표시', status: 'ready' },
       { name: 'C++ Demangler', slug: 'demangler', description: 'C++ mangled name 디맹글링 (Itanium/MSVC)', status: 'ready' },
+      { name: 'Color Picker', slug: 'color', description: '색상 변환 및 대비율 검사 도구', status: 'ready' },
     ],
   },
 ];
