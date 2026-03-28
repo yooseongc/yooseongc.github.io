@@ -18,7 +18,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout title={title} description={description}>
-  <BlogShell client:load currentPath={currentPath} showTOC={showTOC}>
+  <BlogShell client:only="react" currentPath={currentPath} showTOC={showTOC}>
     <slot />
   </BlogShell>
 </BaseLayout>
