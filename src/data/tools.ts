@@ -24,8 +24,8 @@ export const toolCategories: ToolCategory[] = [
     tools: [
       { name: 'JSON Tree Viewer', slug: 'json-viewer', description: 'JSON 데이터를 트리 구조로 시각화', status: 'ready' },
       { name: 'Markdown Renderer', slug: 'markdown', description: 'Markdown 실시간 미리보기', status: 'ready' },
-      { name: 'OpenAPI Viewer', slug: 'openapi', description: 'OpenAPI/Swagger 스펙 뷰어', status: 'coming-soon' },
-      { name: 'Hex Viewer', slug: 'hex-viewer', description: '텍스트/파일의 hex dump 표시', status: 'coming-soon' },
+      { name: 'OpenAPI Viewer', slug: 'openapi', description: 'OpenAPI/Swagger 스펙 뷰어', status: 'ready' },
+      { name: 'Hex Viewer', slug: 'hex-viewer', description: '텍스트/파일의 hex dump 표시', status: 'ready' },
     ],
   },
   {
@@ -43,8 +43,8 @@ export const toolCategories: ToolCategory[] = [
       { name: '프로그래머 계산기', slug: 'programmer-calc', description: '진법 변환 및 비트 연산 계산기', status: 'ready' },
       { name: 'JS Runner', slug: 'js-runner', description: '브라우저에서 JavaScript 코드 실행', status: 'ready' },
       { name: 'Regex Tester', slug: 'regex', description: '정규식 테스트 및 매칭 하이라이트', status: 'ready' },
-      { name: 'Cron Parser', slug: 'cron', description: 'Cron 표현식 파싱 및 실행 스케줄 표시', status: 'coming-soon' },
-      { name: 'C++ Demangler', slug: 'demangler', description: 'C++ mangled name 디맹글링 (Itanium/MSVC)', status: 'coming-soon' },
+      { name: 'Cron Parser', slug: 'cron', description: 'Cron 표현식 파싱 및 실행 스케줄 표시', status: 'ready' },
+      { name: 'C++ Demangler', slug: 'demangler', description: 'C++ mangled name 디맹글링 (Itanium/MSVC)', status: 'ready' },
     ],
   },
 ];

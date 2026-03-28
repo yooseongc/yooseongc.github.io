@@ -1,0 +1,14 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { OpenApiViewer } from '../../components/tools/OpenApiViewer';
+---
+<BlogLayout title="OpenAPI Viewer" showTOC={false}>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="mb-6">
+      <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Tools</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">OpenAPI Viewer</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">OpenAPI/Swagger JSON 스펙을 시각적으로 탐색</p>
+    </div>
+    <OpenApiViewer client:only="react" />
+  </div>
+</BlogLayout>

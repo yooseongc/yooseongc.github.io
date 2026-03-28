@@ -44,6 +44,12 @@
 - BaseLayout에 Open Graph, Twitter Card 메타 태그 추가
 - BaseLayout에 RSS 피드 링크 태그 추가
 
+### Web Tools Phase 2 - 신규 도구 4종 추가
+- OpenAPI Viewer: JSON OpenAPI 스펙 입력 후 API 문서 시각화 (info, servers, endpoints grouped by tag, schemas)
+- Hex Viewer: 텍스트 입력 또는 파일 드래그앤드롭, 클래식 hex dump 포맷 (offset | hex | ASCII), 바이트 호버 하이라이트
+- Cron Parser: 5-field cron 표현식 파싱, 자연어 설명, 다음 10회 실행 시각, 프리셋 및 필드별 분석
+- C++ Demangler: Itanium ABI C++ mangled name 디맹글링 (nested names, templates, types, operators, substitutions), 벌크 모드 지원
+
 ### 아키텍처 결정
 - study-ui-lib의 AppLayout 미사용 (react-router-dom 의존성으로 Astro SSG 비호환)
 - ThemeProvider + 개별 UI 컴포넌트만 재사용 (TableOfContents, BackToTop, Section 등)
