@@ -15,8 +15,8 @@ export const toolCategories: ToolCategory[] = [
     label: '인코딩 / 변환',
     tools: [
       { name: 'Base64 Converter', slug: 'base64', description: 'Base64 인코딩/디코딩 변환기', status: 'ready' },
-      { name: 'Unix Timestamp', slug: 'timestamp', description: 'Unix epoch ↔ 날짜 양방향 변환', status: 'coming-soon' },
-      { name: 'UUID Generator', slug: 'uuid', description: 'UUID v4/v5/v7 생성 및 파싱', status: 'coming-soon' },
+      { name: 'Unix Timestamp', slug: 'timestamp', description: 'Unix epoch ↔ 날짜 양방향 변환', status: 'ready' },
+      { name: 'UUID Generator', slug: 'uuid', description: 'UUID v4/v5/v7 생성 및 파싱', status: 'ready' },
     ],
   },
   {
@@ -33,7 +33,7 @@ export const toolCategories: ToolCategory[] = [
     tools: [
       { name: '네트워크 주소 계산기', slug: 'network-calc', description: 'IPv4/IPv6 서브넷 계산 및 주소 범위 확인', status: 'ready' },
       { name: 'PEM Parser', slug: 'pem-parser', description: '인증서 PEM 파일 파싱 및 상세 정보 표시', status: 'ready' },
-      { name: 'JWT Decoder', slug: 'jwt', description: 'JWT 토큰 디코딩 및 검증', status: 'coming-soon' },
+      { name: 'JWT Decoder', slug: 'jwt', description: 'JWT 토큰 디코딩 및 검증', status: 'ready' },
       { name: 'REST API Tester', slug: 'api-tester', description: 'REST API 요청 전송 및 응답 확인', status: 'ready' },
     ],
   },
@@ -42,7 +42,7 @@ export const toolCategories: ToolCategory[] = [
     tools: [
       { name: '프로그래머 계산기', slug: 'programmer-calc', description: '진법 변환 및 비트 연산 계산기', status: 'ready' },
       { name: 'JS Runner', slug: 'js-runner', description: '브라우저에서 JavaScript 코드 실행', status: 'ready' },
-      { name: 'Regex Tester', slug: 'regex', description: '정규식 테스트 및 매칭 하이라이트', status: 'coming-soon' },
+      { name: 'Regex Tester', slug: 'regex', description: '정규식 테스트 및 매칭 하이라이트', status: 'ready' },
       { name: 'Cron Parser', slug: 'cron', description: 'Cron 표현식 파싱 및 실행 스케줄 표시', status: 'coming-soon' },
       { name: 'C++ Demangler', slug: 'demangler', description: 'C++ mangled name 디맹글링 (Itanium/MSVC)', status: 'coming-soon' },
     ],

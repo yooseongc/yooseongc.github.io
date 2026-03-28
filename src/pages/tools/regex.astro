@@ -1,0 +1,15 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { RegexTester } from '../../components/tools/RegexTester';
+---
+
+<BlogLayout title="Regex Tester" showTOC={false}>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="mb-6">
+      <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Tools</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">Regex Tester</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">정규식 테스트 및 매칭 하이라이트</p>
+    </div>
+    <RegexTester client:only="react" />
+  </div>
+</BlogLayout>
