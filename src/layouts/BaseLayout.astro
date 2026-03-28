@@ -22,6 +22,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#059669" />
+    <link rel="canonical" href={canonicalUrl} />
     <title>{pageTitle}</title>
 
     <!-- FOUC prevention: apply dark class before paint -->

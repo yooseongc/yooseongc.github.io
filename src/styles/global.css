@@ -63,7 +63,6 @@ pre,
     scrollbar-color: oklch(40% 0 0 / 0.5) transparent;
 }
 
-/* ── Blog prose styling ───────────────────────────────────────────────────── */
 /* ── BackToTop color override ─────────────────────────────────────────────── */
 button[aria-label="맨 위로"] {
     background-color: oklch(55% 0.17 160) !important;
@@ -86,7 +85,7 @@ button[aria-label="맨 위로"]:hover {
     @apply mt-10 mb-4 text-3xl font-bold text-gray-900 dark:text-white;
 }
 .blog-prose h2 {
-    @apply mt-8 mb-3 text-xl font-semibold text-gray-900 dark:text-white;
+    @apply mt-8 mb-3 pb-2 text-xl font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800;
 }
 .blog-prose h3 {
     @apply mt-6 mb-2 text-lg font-medium text-gray-900 dark:text-white;
