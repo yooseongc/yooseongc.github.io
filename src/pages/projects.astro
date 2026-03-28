@@ -1,0 +1,38 @@
+---
+import BlogLayout from '../layouts/BlogLayout.astro';
+import { projectCategories } from '../data/projects';
+import { ProjectCard } from '../components/ProjectCard';
+---
+
+<BlogLayout title="Projects" showTOC={false}>
+  <div class="max-w-3xl mx-auto px-6 py-12 space-y-12">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Projects</h1>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        GitHub에서 진행한 프로젝트 목록입니다.
+      </p>
+    </div>
+
+    {projectCategories.map((category) => (
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+          {category.title}
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          {category.description}
+        </p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {category.projects.map((p) => (
+            <ProjectCard
+              name={p.name}
+              description={p.description}
+              github={p.github}
+              demo={p.demo}
+              tags={p.tags}
+            />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BlogLayout>
