@@ -1,0 +1,11 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { ToolShell } from '../../components/tools/ToolShell';
+import { NetworkCalculator } from '../../components/tools/NetworkCalculator';
+---
+
+<BlogLayout title="네트워크 주소 계산기" showTOC={false}>
+  <ToolShell client:only="react" title="네트워크 주소 계산기" description="IP 서브넷 계산 및 주소 범위 확인">
+    <NetworkCalculator />
+  </ToolShell>
+</BlogLayout>

@@ -1,0 +1,11 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { ToolShell } from '../../components/tools/ToolShell';
+import { MarkdownRenderer } from '../../components/tools/MarkdownRenderer';
+---
+
+<BlogLayout title="Markdown Renderer" showTOC={false}>
+  <ToolShell client:only="react" title="Markdown Renderer" description="Markdown 실시간 미리보기">
+    <MarkdownRenderer />
+  </ToolShell>
+</BlogLayout>

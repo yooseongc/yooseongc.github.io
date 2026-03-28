@@ -1,0 +1,167 @@
+import { useState } from 'react';
+
+interface TreeNodeProps {
+  keyName: string;
+  value: unknown;
+  depth: number;
+}
+
+function TreeNode({ keyName, value, depth }: TreeNodeProps) {
+  const [expanded, setExpanded] = useState(depth < 2);
+
+  if (value === null) {
+    return (
+      <div className="flex items-center gap-1" style={{ paddingLeft: depth * 16 }}>
+        <span className="text-emerald-600 dark:text-emerald-400">{keyName}</span>
+        <span className="text-gray-400">:</span>
+        <span className="text-gray-500 italic">null</span>
+      </div>
+    );
+  }
+
+  if (typeof value === 'object') {
+    const isArray = Array.isArray(value);
+    const entries = Object.entries(value as Record<string, unknown>);
+    const bracket = isArray ? ['[', ']'] : ['{', '}'];
+
+    return (
+      <div style={{ paddingLeft: depth * 16 }}>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex items-center gap-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 -ml-1 transition-colors"
+        >
+          <svg
+            className={`w-3 h-3 text-gray-400 transition-transform ${expanded ? 'rotate-90' : ''}`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M6 4l8 6-8 6V4z" />
+          </svg>
+          <span className="text-emerald-600 dark:text-emerald-400">{keyName}</span>
+          <span className="text-gray-400">: {bracket[0]}</span>
+          {!expanded && (
+            <span className="text-gray-400 text-xs ml-1">
+              {entries.length} {isArray ? 'items' : 'keys'} {bracket[1]}
+            </span>
+          )}
+        </button>
+        {expanded && (
+          <>
+            {entries.map(([k, v]) => (
+              <TreeNode key={k} keyName={isArray ? `[${k}]` : k} value={v} depth={depth + 1} />
+            ))}
+            <div className="text-gray-400" style={{ paddingLeft: 16 }}>{bracket[1]}</div>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  const color =
+    typeof value === 'string' ? 'text-amber-600 dark:text-amber-400' :
+    typeof value === 'number' ? 'text-blue-600 dark:text-blue-400' :
+    typeof value === 'boolean' ? 'text-purple-600 dark:text-purple-400' :
+    'text-gray-600 dark:text-gray-400';
+
+  const display = typeof value === 'string' ? `"${value}"` : String(value);
+
+  return (
+    <div className="flex items-center gap-1" style={{ paddingLeft: depth * 16 }}>
+      <span className="text-emerald-600 dark:text-emerald-400">{keyName}</span>
+      <span className="text-gray-400">:</span>
+      <span className={color}>{display}</span>
+    </div>
+  );
+}
+
+export function JsonTreeViewer() {
+  const [input, setInput] = useState('');
+  const [parsed, setParsed] = useState<unknown>(null);
+  const [error, setError] = useState('');
+  const [view, setView] = useState<'tree' | 'raw'>('tree');
+
+  function handleParse(text: string) {
+    setInput(text);
+    setError('');
+    setParsed(null);
+    if (!text.trim()) return;
+    try {
+      setParsed(JSON.parse(text));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'JSON 파싱 실패');
+    }
+  }
+
+  function handleFormat() {
+    if (!parsed) return;
+    setInput(JSON.stringify(parsed, null, 2));
+  }
+
+  function handleMinify() {
+    if (!parsed) return;
+    setInput(JSON.stringify(parsed));
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Input */}
+      <div>
+        <div className="flex items-center justify-between mb-1">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">JSON Input</label>
+          <div className="flex gap-2">
+            <button onClick={handleFormat} disabled={!parsed} className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-30">
+              Format
+            </button>
+            <button onClick={handleMinify} disabled={!parsed} className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-30">
+              Minify
+            </button>
+          </div>
+        </div>
+        <textarea
+          value={input}
+          onChange={(e) => handleParse(e.target.value)}
+          placeholder='{"key": "value"}'
+          className="w-full h-48 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        />
+        {error && <p className="mt-1 text-sm text-red-500 dark:text-red-400">{error}</p>}
+      </div>
+
+      {/* Output */}
+      {parsed !== null && (
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <button
+              onClick={() => setView('tree')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                view === 'tree'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Tree
+            </button>
+            <button
+              onClick={() => setView('raw')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                view === 'raw'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Raw
+            </button>
+          </div>
+          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 overflow-auto max-h-[500px] font-mono text-sm">
+            {view === 'tree' ? (
+              <TreeNode keyName="root" value={parsed} depth={0} />
+            ) : (
+              <pre className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                {JSON.stringify(parsed, null, 2)}
+              </pre>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
