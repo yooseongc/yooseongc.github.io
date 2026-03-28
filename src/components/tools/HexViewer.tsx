@@ -89,12 +89,22 @@ export function HexViewer() {
 
       {/* Input */}
       {inputMode === 'text' ? (
-        <textarea
-          value={textInput}
-          onChange={(e) => loadText(e.target.value)}
-          placeholder="Type or paste text here to view as hex..."
-          className="w-full h-24 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm p-3 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        />
+        <div className="space-y-1">
+          <div className="flex justify-end">
+            <button
+              onClick={() => loadText('Hello, World! 안녕하세요 🌍\x00\x01\x02\x03\x1b[31mRed\x1b[0m\nLine2\tTab\r\nCRLF')}
+              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              Sample
+            </button>
+          </div>
+          <textarea
+            value={textInput}
+            onChange={(e) => loadText(e.target.value)}
+            placeholder="Type or paste text here to view as hex..."
+            className="w-full h-24 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm p-3 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
       ) : (
         <div
           onDrop={handleDrop}
