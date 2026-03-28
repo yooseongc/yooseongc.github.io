@@ -1,11 +1,15 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import { ToolShell } from '../../components/tools/ToolShell';
 import { JsonTreeViewer } from '../../components/tools/JsonTreeViewer';
 ---
 
 <BlogLayout title="JSON Tree Viewer" showTOC={false}>
-  <ToolShell client:only="react" title="JSON Tree Viewer" description="JSON 데이터를 트리 구조로 시각화">
-    <JsonTreeViewer />
-  </ToolShell>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="mb-6">
+      <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Tools</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">JSON Tree Viewer</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">JSON 데이터를 트리 구조로 시각화</p>
+    </div>
+    <JsonTreeViewer client:only="react" />
+  </div>
 </BlogLayout>

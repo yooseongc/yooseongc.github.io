@@ -1,11 +1,15 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import { ToolShell } from '../../components/tools/ToolShell';
 import { ApiTester } from '../../components/tools/ApiTester';
 ---
 
 <BlogLayout title="REST API Tester" showTOC={false}>
-  <ToolShell client:only="react" title="REST API Tester" description="REST API 요청 전송 및 응답 확인">
-    <ApiTester />
-  </ToolShell>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="mb-6">
+      <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Tools</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">REST API Tester</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">REST API 요청 전송 및 응답 확인</p>
+    </div>
+    <ApiTester client:only="react" />
+  </div>
 </BlogLayout>

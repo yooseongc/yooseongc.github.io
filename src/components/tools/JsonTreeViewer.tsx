@@ -28,10 +28,10 @@ function TreeNode({ keyName, value, depth }: TreeNodeProps) {
       <div style={{ paddingLeft: depth * 16 }}>
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 -ml-1 transition-colors"
+          className="flex items-center gap-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1.5 py-0.5 -ml-1.5 transition-colors"
         >
           <svg
-            className={`w-3 h-3 text-gray-400 transition-transform ${expanded ? 'rotate-90' : ''}`}
+            className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${expanded ? 'rotate-90' : ''}`}
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -109,10 +109,10 @@ export function JsonTreeViewer() {
         <div className="flex items-center justify-between mb-1">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">JSON Input</label>
           <div className="flex gap-2">
-            <button onClick={handleFormat} disabled={!parsed} className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-30">
+            <button onClick={handleFormat} disabled={!parsed} className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-30">
               Format
             </button>
-            <button onClick={handleMinify} disabled={!parsed} className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline disabled:opacity-30">
+            <button onClick={handleMinify} disabled={!parsed} className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors disabled:opacity-30">
               Minify
             </button>
           </div>
@@ -132,20 +132,20 @@ export function JsonTreeViewer() {
           <div className="flex items-center gap-2 mb-2">
             <button
               onClick={() => setView('tree')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 view === 'tree'
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
             >
               Tree
             </button>
             <button
               onClick={() => setView('raw')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 view === 'raw'
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
             >
               Raw

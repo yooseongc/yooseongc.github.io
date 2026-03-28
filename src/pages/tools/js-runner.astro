@@ -1,11 +1,15 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import { ToolShell } from '../../components/tools/ToolShell';
 import { JsRunner } from '../../components/tools/JsRunner';
 ---
 
 <BlogLayout title="JS Runner" showTOC={false}>
-  <ToolShell client:only="react" title="JS Runner" description="브라우저에서 JavaScript 코드 실행">
-    <JsRunner />
-  </ToolShell>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <div class="mb-6">
+      <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">&larr; Tools</a>
+      <h1 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">JS Runner</h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">브라우저에서 JavaScript 코드 실행</p>
+    </div>
+    <JsRunner client:only="react" />
+  </div>
 </BlogLayout>
