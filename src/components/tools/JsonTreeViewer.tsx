@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useCallback } from 'react';
 
 const SAMPLE_JSON = `{
   "name": "yooseongc",
@@ -118,6 +118,14 @@ export function JsonTreeViewer() {
   const [view, setView] = useState<'tree' | 'raw'>('tree');
 
   const lineCount = useMemo(() => input.split('\n').length, [input]);
+  const gutterRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleScroll = useCallback(() => {
+    if (gutterRef.current && textareaRef.current) {
+      gutterRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  }, []);
 
   function handleParse(text: string) {
     setInput(text);
@@ -163,16 +171,21 @@ export function JsonTreeViewer() {
             </button>
           </div>
         </div>
-        {/* Textarea with line numbers */}
+        {/* Textarea with synced line numbers */}
         <div className="flex rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent">
-          <div className="select-none px-3 py-3 text-right text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5">
-            {Array.from({ length: Math.max(lineCount, 10) }, (_, i) => (
+          <div
+            ref={gutterRef}
+            className="select-none px-3 py-3 text-right text-xs text-gray-400 dark:text-gray-600 bg-gray-50 dark:bg-gray-900/50 border-r border-gray-200 dark:border-gray-700 font-mono leading-5 overflow-hidden"
+          >
+            {Array.from({ length: lineCount }, (_, i) => (
               <div key={i}>{i + 1}</div>
             ))}
           </div>
           <textarea
+            ref={textareaRef}
             value={input}
             onChange={(e) => handleParse(e.target.value)}
+            onScroll={handleScroll}
             placeholder='{"key": "value"}'
             className="flex-1 h-48 px-4 py-3 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none leading-5"
           />

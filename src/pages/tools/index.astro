@@ -1,36 +1,30 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import { ToolCard } from '../../components/ToolCard';
-import { tools } from '../../data/tools';
-
-const readyTools = tools.filter((t) => t.status === 'ready');
-const comingSoon = tools.filter((t) => t.status === 'coming-soon');
+import { toolCategories } from '../../data/tools';
 ---
 
 <BlogLayout title="Web Tools" showTOC={false}>
   <div class="max-w-5xl mx-auto px-6 py-12">
     <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Web Tools</h1>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-8">
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-10">
       개발에 유용한 웹 기반 유틸리티 도구 모음입니다.
     </p>
 
-    {readyTools.length > 0 && (
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-        {readyTools.map((tool) => (
-          <ToolCard {...tool} />
-        ))}
-      </div>
-    )}
-
-    {comingSoon.length > 0 && (
-      <>
-        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Coming Soon</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {comingSoon.map((tool) => (
-            <ToolCard {...tool} />
-          ))}
-        </div>
-      </>
-    )}
+    <div class="space-y-10">
+      {toolCategories.map((category) => (
+        <section>
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
+            <span class="w-1 h-5 bg-emerald-500 rounded-full inline-block"></span>
+            {category.label}
+          </h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {category.tools.map((tool) => (
+              <ToolCard {...tool} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   </div>
 </BlogLayout>
