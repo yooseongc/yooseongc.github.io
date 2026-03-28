@@ -38,21 +38,37 @@ import { TechBadge } from '../components/TechBadge';
 
     <!-- Studies -->
     <section>
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Studies</h2>
-      <div class="grid sm:grid-cols-2 gap-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Studies</h2>
+      <div class="space-y-8">
         {studies.map((cat) => (
-          <div>
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">{cat.title}</h3>
-            <ul class="space-y-1">
+          <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 p-5">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">{cat.title}</h3>
+            {cat.description && (
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">{cat.description}</p>
+            )}
+            <ul class="mt-4 space-y-3">
               {cat.topics.map((topic) => (
-                <li class="text-sm text-gray-600 dark:text-gray-400">
-                  {topic.name}
+                <li>
+                  <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{topic.name}</div>
+                  {topic.description && (
+                    <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{topic.description}</p>
+                  )}
                   {topic.subtopics && (
-                    <ul class="mt-1 ml-4 space-y-0.5">
+                    <ul class="mt-1.5 ml-4 space-y-0.5">
                       {topic.subtopics.map((sub) => (
-                        <li class="text-xs text-gray-500 dark:text-gray-500">{sub}</li>
+                        <li class="text-xs text-gray-500 dark:text-gray-500 flex items-start gap-1.5">
+                          <span class="mt-1.5 w-1 h-1 rounded-full bg-gray-400 dark:bg-gray-600 shrink-0" />
+                          {sub}
+                        </li>
                       ))}
                     </ul>
+                  )}
+                  {topic.relatedTech && topic.relatedTech.length > 0 && (
+                    <div class="mt-1.5 flex flex-wrap gap-1">
+                      {topic.relatedTech.map((tech) => (
+                        <span class="inline-block rounded bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 text-[10px] text-gray-500 dark:text-gray-400">{tech}</span>
+                      ))}
+                    </div>
                   )}
                 </li>
               ))}
