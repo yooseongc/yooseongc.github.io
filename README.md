@@ -13,6 +13,9 @@
 ## Development
 
 ```bash
+# submodule 초기화 (최초)
+git submodule update --init --recursive
+
 # 의존성 설치
 pnpm install
 
@@ -30,17 +33,34 @@ pnpm preview
 
 ```
 src/
-├── components/   # React 컴포넌트
-├── content/blog/ # 블로그 포스트 (Markdown)
-├── data/         # 정적 데이터 (프로필, 프로젝트, 이력 등)
-├── layouts/      # Astro 레이아웃
-├── pages/        # 페이지 라우팅
-└── styles/       # 전역 스타일
+├── components/        # React 컴포넌트
+│   └── tools/         # Web Tools 컴포넌트
+├── content/
+│   ├── blog/          # 기술 블로그 포스트 (Markdown)
+│   └── journal/       # 일상 블로그 포스트 (Markdown)
+├── data/              # 정적 데이터 (프로필, 프로젝트, 이력, 도구 등)
+├── layouts/           # Astro 레이아웃
+├── pages/
+│   ├── blog/          # 기술 블로그 (/blog)
+│   ├── journal/       # 일상 블로그 (/journal)
+│   └── tools/         # Web Tools (/tools)
+└── styles/            # 전역 스타일
 ```
+
+## Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | 홈 (프로필, 최근 포스트, 도구, 프로젝트) |
+| `/blog` | 기술 블로그 목록 |
+| `/journal` | 일상 블로그 목록 |
+| `/tools` | 웹 유틸리티 도구 모음 |
+| `/projects` | 프로젝트 소개 |
+| `/about` | 소개 |
 
 ## Adding a Blog Post
 
-`src/content/blog/` 디렉토리에 Markdown 파일을 추가합니다:
+`src/content/blog/` 또는 `src/content/journal/` 디렉토리에 Markdown 파일을 추가합니다:
 
 ```markdown
 ---

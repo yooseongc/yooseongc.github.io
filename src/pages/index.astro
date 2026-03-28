@@ -2,9 +2,11 @@
 import BlogLayout from '../layouts/BlogLayout.astro';
 import { profile } from '../data/profile';
 import { projectCategories } from '../data/projects';
+import { tools } from '../data/tools';
 import { TechBadge } from '../components/TechBadge';
 import { PostCard } from '../components/PostCard';
 import { ProjectCard } from '../components/ProjectCard';
+import { ToolCard } from '../components/ToolCard';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -13,6 +15,7 @@ const posts = (await getCollection('blog'))
   .slice(0, 3);
 
 const featuredProjects = projectCategories[0].projects.slice(0, 4);
+const featuredTools = tools.slice(0, 4);
 ---
 
 <BlogLayout showTOC={false}>
@@ -85,6 +88,21 @@ const featuredProjects = projectCategories[0].projects.slice(0, 4);
         </div>
       </section>
     )}
+
+    <!-- Web Tools -->
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Web Tools</h2>
+        <a href="/tools" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+          View all
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {featuredTools.map((tool) => (
+          <ToolCard {...tool} />
+        ))}
+      </div>
+    </section>
 
     <!-- Featured Projects -->
     <section>

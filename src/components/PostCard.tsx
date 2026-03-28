@@ -6,12 +6,13 @@ interface PostCardProps {
   excerpt?: string;
   tags?: string[];
   slug: string;
+  basePath?: string;
 }
 
-export function PostCard({ title, date, excerpt, tags = [], slug }: PostCardProps) {
+export function PostCard({ title, date, excerpt, tags = [], slug, basePath = '/blog' }: PostCardProps) {
   return (
     <a
-      href={`/blog/${slug}`}
+      href={`${basePath}/${slug}`}
       className="block rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900/50 p-5 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors group"
     >
       <time className="text-xs text-gray-500 dark:text-gray-500">{date}</time>

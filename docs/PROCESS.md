@@ -30,6 +30,14 @@
 - STUDIES.md 각 토픽에 설명, 관련 기술 태그 추가
 - About 페이지 Studies 섹션 카드 UI 리뉴얼
 
+### 사이트 고도화 Phase 1 - 구조 기반 작업
+- 네비게이션 재구성: BlogSidebar를 그룹 구조로 변경 (블로그/도구/기타 섹션 분리)
+- Journal(일상 블로그) 컬렉션 및 페이지 추가 (/journal, /journal/[slug])
+- Web Tools 인��스 페이지 및 도구 데이터 구조 생성 (/tools)
+- ToolCard, ToolShell 컴포넌트 추가
+- PostCard에 basePath prop 추가 (blog/journal 공용)
+- 홈페이지에 Web Tools 섹션 추가
+
 ### 아키텍처 결정
 - study-ui-lib의 AppLayout 미사용 (react-router-dom 의존성으로 Astro SSG 비호환)
 - ThemeProvider + 개별 UI 컴포넌트만 재사용 (TableOfContents, BackToTop, Section 등)
