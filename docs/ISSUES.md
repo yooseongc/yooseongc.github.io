@@ -17,3 +17,21 @@
 **문제**: study-ui-lib 컴포넌트의 Tailwind 클래스가 빌드에 포함되지 않을 수 있음
 
 **해결**: global.css에 `@source "../../lib/study-ui-lib/packages/ui/src/**/*.tsx"` 디렉티브 추가
+
+## git submodule 로컬 경로 문제
+
+**문제**: submodule URL이 로컬 파일 경로(`/Users/...`)로 등록되어 CI(GitHub Actions)에서 clone 실패
+
+**해결**: `.gitmodules`의 URL을 `https://github.com/yooseongc/study-ui-lib.git`으로 변경
+
+## Astro 6 Content Collections 변경
+
+**문제**: Astro 6에서 `src/content/config.ts` 경로가 더 이상 지원되지 않음
+
+**해결**: `src/content.config.ts`로 파일 이동, `glob` loader를 사용하는 새 API로 마이그레이션
+
+## Tailwind CSS 4 @apply !important 미지원
+
+**문제**: Tailwind CSS 4에서 `@apply` 내 `!important` 키워드 사용 시 빌드 에러
+
+**해결**: BackToTop 색상 오버라이드를 `@apply` 대신 순수 CSS `!important`로 작성
