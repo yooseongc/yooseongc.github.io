@@ -255,7 +255,7 @@ export function PemParser() {
       <button
         onClick={handleParse}
         disabled={loading}
-        className="px-6 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
+        className="px-5 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
       >
         {loading ? '파싱 중...' : '파싱'}
       </button>

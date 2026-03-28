@@ -260,7 +260,7 @@ export function NetworkCalculator() {
         <div className="flex items-end">
           <button
             onClick={handleCalculate}
-            className="px-6 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors"
+            className="px-5 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors"
           >
             계산
           </button>

@@ -128,7 +128,7 @@ export function ApiTester() {
         <button
           onClick={handleSend}
           disabled={loading}
-          className="px-6 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50 shrink-0"
+          className="px-5 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50 shrink-0"
         >
           {loading ? '...' : 'Send'}
         </button>
