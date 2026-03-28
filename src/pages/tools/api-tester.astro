@@ -1,0 +1,11 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { ToolShell } from '../../components/tools/ToolShell';
+import { ApiTester } from '../../components/tools/ApiTester';
+---
+
+<BlogLayout title="REST API Tester" showTOC={false}>
+  <ToolShell client:only="react" title="REST API Tester" description="REST API 요청 전송 및 응답 확인">
+    <ApiTester />
+  </ToolShell>
+</BlogLayout>

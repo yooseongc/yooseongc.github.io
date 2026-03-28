@@ -15,6 +15,8 @@
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",
     "@astrojs/react": "^5.0.2",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@study-ui/components": "file:./lib/study-ui-lib/packages/ui",
     "@tailwindcss/vite": "^4.2.2",

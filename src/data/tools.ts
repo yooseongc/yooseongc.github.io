@@ -40,18 +40,18 @@ export const tools: ToolMeta[] = [
     name: 'PEM Parser',
     slug: 'pem-parser',
     description: '인증서 PEM 파일 파싱 및 상세 정보 표시',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     name: 'JS Runner',
     slug: 'js-runner',
     description: '브라우저에서 JavaScript 코드 실행',
-    status: 'coming-soon',
+    status: 'ready',
   },
   {
     name: 'REST API Tester',
     slug: 'api-tester',
     description: 'REST API 요청 전송 및 응답 확인',
-    status: 'coming-soon',
+    status: 'ready',
   },
 ];

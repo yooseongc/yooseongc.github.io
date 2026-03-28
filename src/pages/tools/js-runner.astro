@@ -1,0 +1,11 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import { ToolShell } from '../../components/tools/ToolShell';
+import { JsRunner } from '../../components/tools/JsRunner';
+---
+
+<BlogLayout title="JS Runner" showTOC={false}>
+  <ToolShell client:only="react" title="JS Runner" description="브라우저에서 JavaScript 코드 실행">
+    <JsRunner />
+  </ToolShell>
+</BlogLayout>

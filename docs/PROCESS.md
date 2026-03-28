@@ -38,6 +38,12 @@
 - PostCard에 basePath prop 추가 (blog/journal 공용)
 - 홈페이지에 Web Tools 섹션 추가
 
+### SEO 및 피드 추가
+- @astrojs/sitemap 통합 추가 (자동 sitemap.xml 생성)
+- @astrojs/rss 기반 RSS 피드 생성 (/rss.xml) - blog + journal 컬렉션 통합
+- BaseLayout에 Open Graph, Twitter Card 메타 태그 추가
+- BaseLayout에 RSS 피드 링크 태그 추가
+
 ### 아키텍처 결정
 - study-ui-lib의 AppLayout 미사용 (react-router-dom 의존성으로 Astro SSG 비호환)
 - ThemeProvider + 개별 UI 컴포넌트만 재사용 (TableOfContents, BackToTop, Section 등)

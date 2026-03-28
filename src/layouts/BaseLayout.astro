@@ -6,6 +6,7 @@ interface Props {
 
 const { title = 'yooseongc', description = '백엔드 / 시스템 / 네트워크 / 인프라에 관심이 많은 개발자' } = Astro.props;
 const pageTitle = title === 'yooseongc' ? title : `${title} | yooseongc`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -15,6 +16,12 @@ const pageTitle = title === 'yooseongc' ? title : `${title} | yooseongc`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="yooseongc RSS Feed" href="/rss.xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
     <title>{pageTitle}</title>
 
     <!-- FOUC prevention: apply dark class before paint -->
