@@ -1,0 +1,33 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'yooseongc', description = '백엔드 / 시스템 / 네트워크 / 인프라에 관심이 많은 개발자' } = Astro.props;
+const pageTitle = title === 'yooseongc' ? title : `${title} | yooseongc`;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+
+    <!-- FOUC prevention: apply dark class before paint -->
+    <script is:inline>
+      (function () {
+        const t = localStorage.getItem('theme') ?? 'dark';
+        if (t === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+  </head>
+  <body
+    class="h-full bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors"
+  >
+    <slot />
+  </body>
+</html>

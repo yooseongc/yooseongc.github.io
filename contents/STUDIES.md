@@ -1,0 +1,26 @@
+# Studies
+
+- Computer Science
+  - Object-Orient Programming, Design Pattern
+  - 컴퓨터 구조
+  - 자료구조/알고리즘
+  - Data Science / Machine Learnings
+  - Linux Kernel, Network
+  - 웹 보안 기술 (TLS, Certificates)
+- Atmospheric Science
+  - 대기역학, 자료동화, 수치모델 및 수치해석
+  - 기상 데이터 처리 (수치모델, 위성, 레이더)
+- ETC
+  - Hadoop
+  - MLOps
+  - DevOps
+- Web Related
+  - Web Backend
+    - RestfulAPI
+    - Architecture
+    - Database, SQL
+  - Web Frontend
+    - HTML/CSS/Javascrpt ECMAScript5+
+    - Web Visualization (d3, Three.js, WebGL)
+- Container 기반 가상화 기술
+  - Docker, Kubernetes

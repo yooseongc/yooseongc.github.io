@@ -1,0 +1,24 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { BlogShell } from '../components/BlogShell';
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showTOC?: boolean;
+}
+
+const { title, description, showTOC = true } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<BaseLayout title={title} description={description}>
+  <BlogShell client:load currentPath={currentPath} showTOC={showTOC}>
+    <slot />
+  </BlogShell>
+</BaseLayout>
