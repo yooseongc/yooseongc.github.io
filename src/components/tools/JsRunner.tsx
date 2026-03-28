@@ -21,39 +21,7 @@ console.warn('이것은 경고 메시지입니다.');
 console.info('실행 완료!');
 `;
 
-export function JsRunner() {
-  const [code, setCode] = useState(SAMPLE_CODE);
-  const [entries, setEntries] = useState<ConsoleEntry[]>([]);
-  const [running, setRunning] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const timeoutRef = useRef<number>();
-
-  useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      const data = e.data;
-      if (data?.source !== 'js-runner') return;
-      if (data.type === 'console') {
-        setEntries((prev) => [...prev, { type: data.level, args: data.args }]);
-      }
-      if (data.type === 'done') {
-        setRunning(false);
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      }
-    };
-    window.addEventListener('message', handler);
-    return () => window.removeEventListener('message', handler);
-  }, []);
-
-  const handleRun = useCallback(() => {
-    setEntries([]);
-    setRunning(true);
-
-    const escapedCode = code
-      .replace(/\\/g, '\\\\')
-      .replace(/`/g, '\\`')
-      .replace(/<\/script>/gi, '<\\/script>');
-
-    const html = `<!DOCTYPE html><html><body><script>
+const RUNNER_HTML = `<!DOCTYPE html><html><body><script>
 function serialize(args) {
   return Array.from(args).map(function(a) {
     if (a === null) return 'null';
@@ -72,24 +40,106 @@ function serialize(args) {
 window.onerror = function(msg, src, line) {
   parent.postMessage({ source: 'js-runner', type: 'console', level: 'error', args: msg + (line ? ' (line ' + line + ')' : '') }, '*');
 };
-try {
-  ${escapedCode}
-} catch(e) {
-  console.error(e.toString());
-}
-parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.source === 'js-runner-exec') {
+    try {
+      var fn = new Function(e.data.code);
+      fn();
+    } catch(err) {
+      console.error(err.toString());
+    }
+    parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
+  }
+});
+parent.postMessage({ source: 'js-runner', type: 'ready' }, '*');
 <\/script></body></html>`;
 
-    const iframe = iframeRef.current;
-    if (iframe) {
-      iframe.srcdoc = html;
+export function JsRunner() {
+  const [code, setCode] = useState(SAMPLE_CODE);
+  const [entries, setEntries] = useState<ConsoleEntry[]>([]);
+  const [running, setRunning] = useState(false);
+  const [ready, setReady] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const timeoutRef = useRef<number>();
+  const blobUrlRef = useRef<string>();
+
+  // Create blob URL once
+  useEffect(() => {
+    const blob = new Blob([RUNNER_HTML], { type: 'text/html' });
+    blobUrlRef.current = URL.createObjectURL(blob);
+    return () => {
+      if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      const data = e.data;
+      if (data?.source !== 'js-runner') return;
+      if (data.type === 'ready') {
+        setReady(true);
+      }
+      if (data.type === 'console') {
+        setEntries((prev) => [...prev, { type: data.level, args: data.args }]);
+      }
+      if (data.type === 'done') {
+        setRunning(false);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  // Load iframe
+  useEffect(() => {
+    if (blobUrlRef.current && iframeRef.current) {
+      iframeRef.current.src = blobUrlRef.current;
     }
+  }, []);
+
+  const handleRun = useCallback(() => {
+    const iframe = iframeRef.current;
+    if (!iframe?.contentWindow) return;
+
+    // If not ready, reload and try again
+    if (!ready) {
+      if (blobUrlRef.current) {
+        iframe.src = blobUrlRef.current;
+        // Wait for ready message then send code
+        const waitReady = (e: MessageEvent) => {
+          if (e.data?.source === 'js-runner' && e.data.type === 'ready') {
+            window.removeEventListener('message', waitReady);
+            setReady(true);
+            iframe.contentWindow?.postMessage({ source: 'js-runner-exec', code }, '*');
+          }
+        };
+        window.addEventListener('message', waitReady);
+      }
+    } else {
+      // Reload iframe for clean state, then send code
+      setReady(false);
+      if (blobUrlRef.current) {
+        iframe.src = blobUrlRef.current;
+        const waitReady = (e: MessageEvent) => {
+          if (e.data?.source === 'js-runner' && e.data.type === 'ready') {
+            window.removeEventListener('message', waitReady);
+            setReady(true);
+            iframe.contentWindow?.postMessage({ source: 'js-runner-exec', code }, '*');
+          }
+        };
+        window.addEventListener('message', waitReady);
+      }
+    }
+
+    setEntries([]);
+    setRunning(true);
 
     timeoutRef.current = window.setTimeout(() => {
       setRunning(false);
       setEntries((prev) => [...prev, { type: 'error', args: '실행 시간 초과 (5초)' }]);
     }, 5000);
-  }, [code]);
+  }, [code, ready]);
 
   function handleClear() {
     setEntries([]);
@@ -119,9 +169,9 @@ parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
             <button
               onClick={handleRun}
               disabled={running}
-              className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              className="px-5 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors disabled:opacity-50"
             >
-              {running ? '실행 중...' : '실행 (Run)'}
+              {running ? '실행 중...' : '▶ Run'}
             </button>
             <button
               onClick={handleClear}
@@ -137,6 +187,12 @@ parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
           spellCheck={false}
           className="w-full h-64 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent leading-5"
           onKeyDown={(e) => {
+            // Ctrl+Enter to run
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+              e.preventDefault();
+              handleRun();
+              return;
+            }
             if (e.key === 'Tab') {
               e.preventDefault();
               const target = e.target as HTMLTextAreaElement;
@@ -147,6 +203,7 @@ parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
             }
           }}
         />
+        <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">Ctrl+Enter로 실행</p>
       </div>
 
       {/* Console output */}
@@ -172,7 +229,7 @@ parent.postMessage({ source: 'js-runner', type: 'done' }, '*');
         </div>
       </div>
 
-      {/* Hidden iframe for execution */}
+      {/* Sandboxed iframe */}
       <iframe
         ref={iframeRef}
         sandbox="allow-scripts"
